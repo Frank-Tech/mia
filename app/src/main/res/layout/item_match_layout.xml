@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="ltr"
+    android:background="@drawable/regular_background">
+
+    <RelativeLayout
+        android:id="@+id/got_match_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="55dp"
+        android:layout_marginStart="55dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/heart"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_hearts"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/you_got_a_match"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/match_picture"
+            android:layout_width="125dp"
+            android:layout_height="155dp"
+            android:layout_alignParentEnd="true"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/match_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_below="@id/match_picture"
+            android:layout_alignStart="@+id/match_picture"
+            android:text="Tali, 25\nTel Aviv"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/got_match_container"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp">
+
+        <TextView
+            android:id="@+id/dont_waste_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/dont_waste_time"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/i_wanna_talk"
+            android:textAllCaps="false"
+            android:textSize="25sp"
+            android:layout_below="@+id/dont_waste_time"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>
