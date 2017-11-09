@@ -1,10 +1,15 @@
 package com.franktech.mia.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -14,6 +19,8 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 import com.franktech.mia.R;
+import com.franktech.mia.SharedPrefUtil;
+import com.franktech.mia.VolleySingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences sharedPreferences = SharedPrefUtil.getSharedPref(getApplicationContext());
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
 
         callback = CallbackManager.Factory.create();
 
@@ -45,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
                                 try {
-                                    String email = object.getString("email");
+                                    setUserData(object, editor);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -72,6 +82,48 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void setUserData(JSONObject object, SharedPreferences.Editor editor) throws JSONException {
+        String email = object.getString("email");
+        if(email != null) {
+            editor.putString(SharedPrefUtil.EMAIL_KEY, email);
+        }
+
+        String gender = object.getString("gender");
+        if(gender != null) {
+            editor.putString(SharedPrefUtil.GENDER_KEY, gender);
+        }
+
+        String birthDay = object.getString("gender");
+        if(birthDay != null) {
+            editor.putString(SharedPrefUtil.BIRTH_DAY_KEY, gender);
+        }
+
+        sendData(object);
+    }
+
+    private void sendData(JSONObject object) {
+        String url = "http://10.100.102.9:5000/user?d=" + object.toString();
+
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        System.out.println(response);
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("Something went wrong!");
+                error.printStackTrace();
+
+            }
+        });
+        VolleySingleton.getInstance(this).addRequestToQueue(stringRequest);
     }
 
     @Override
