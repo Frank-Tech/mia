@@ -3,6 +3,7 @@ package com.franktech.mia;
 import android.content.Context;
 
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -35,6 +36,14 @@ public class VolleySingleton extends Volley{
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         Volley.newRequestQueue(context).add(stringRequest);
+    }
+
+    public void addRequestToQueue(JsonObjectRequest jsonObjectRequest){
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        Volley.newRequestQueue(context).add(jsonObjectRequest);
     }
 
 }

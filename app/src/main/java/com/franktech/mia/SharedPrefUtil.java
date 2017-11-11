@@ -13,6 +13,7 @@ public class SharedPrefUtil{
     public final static String EMAIL_KEY = "email";
     public final static String GENDER_KEY = "gender";
     public final static String BIRTH_DAY_KEY = "birth_day";
+    public static final String FACEBOOK_ID = "facebook_id";
 
     public static SharedPreferences getSharedPref(Context context){
         return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);

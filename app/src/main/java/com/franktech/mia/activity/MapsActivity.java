@@ -27,6 +27,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.franktech.mia.SharedPrefUtil;
+import com.franktech.mia.VolleySingleton;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -37,6 +43,15 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.franktech.mia.R;
+import com.google.zxing.common.StringUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Iterator;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -73,6 +88,46 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         LocationListener locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
                 // Called when a new location is found by the network location provider.
+
+                String url = String.format(getResources().getString(R.string.location_url), String.valueOf(location.getLatitude()),
+                        String.valueOf(location.getLongitude()),
+                        SharedPrefUtil.getSharedPref(getApplicationContext()).getString(SharedPrefUtil.EMAIL_KEY,""));
+
+
+                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+
+                                try {
+                                    JSONObject nearUsers = new JSONObject(response);
+                                    Iterator<?> keys = nearUsers.keys();
+
+                                    while( keys.hasNext() ) {
+                                        String key = (String)keys.next();
+                                        if ( nearUsers.get(key) instanceof JSONObject ) {
+                                            double userLong = ((JSONObject) nearUsers.get(key)).getDouble("longitude");
+                                            double userLat = ((JSONObject) nearUsers.get(key)).getDouble("latitude");
+                                            String faceId = ((JSONObject) nearUsers.get(key)).getString("face_id");
+                                        }
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println("Something went wrong!");
+                        error.printStackTrace();
+
+                    }
+                });
+
+                VolleySingleton.getInstance(MapsActivity.this).addRequestToQueue(stringRequest);
+
                 setLocation(new LatLng(location.getLatitude(), location.getLongitude()));
             }
 
@@ -88,15 +143,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // Register the listener with the Location Manager to receive location updates
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 123);
+
         }
+
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 
     }
@@ -146,5 +196,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             drawable.draw(canvas);
         customMarkerView.draw(canvas);
         return returnedBitmap;
+    }
+
+    private Bitmap getFacebookProfilePic(String faceId){
+        URL imageUrl = null;
+        Bitmap bitmap = null;
+        try {
+            imageUrl = new URL("https://grapgh.facebook.com/" + faceId + "/picture?type=large");
+            bitmap = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return bitmap;
     }
 }

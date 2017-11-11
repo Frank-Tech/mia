@@ -2,13 +2,17 @@ package com.franktech.mia.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -25,6 +29,11 @@ import com.franktech.mia.VolleySingleton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
@@ -85,8 +94,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUserData(JSONObject object, SharedPreferences.Editor editor) throws JSONException {
+        String facebookId =  object.getString("id");
+        if(facebookId != null) {
+            editor.putString(SharedPrefUtil.FACEBOOK_ID, facebookId);
+        }
+
         String email = object.getString("email");
         if(email != null) {
+
             editor.putString(SharedPrefUtil.EMAIL_KEY, email);
         }
 
@@ -95,35 +110,61 @@ public class MainActivity extends AppCompatActivity {
             editor.putString(SharedPrefUtil.GENDER_KEY, gender);
         }
 
-        String birthDay = object.getString("gender");
-        if(birthDay != null) {
-            editor.putString(SharedPrefUtil.BIRTH_DAY_KEY, gender);
+        if(object.isNull("birthday") == false){
+            String birthDay = object.getString("birthday");
+            if(birthDay != null) {
+                editor.putString(SharedPrefUtil.BIRTH_DAY_KEY, gender);
+            }
         }
 
+        editor.apply();
         sendData(object);
     }
 
     private void sendData(JSONObject object) {
-        String url = "http://10.100.102.9:5000/user?d=" + object.toString();
+        try {
+            object.put("mid", Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
+            String query = URLEncoder.encode(object.toString(), "utf-8");
+            String url = "http://10.100.102.9:5000/user?d=" + query;
 
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+                            System.out.println(response);
 
-                        System.out.println(response);
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("Something went wrong!");
+                    error.printStackTrace();
 
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println("Something went wrong!");
-                error.printStackTrace();
+                }
+            });
 
-            }
-        });
-        VolleySingleton.getInstance(this).addRequestToQueue(stringRequest);
+            VolleySingleton.getInstance(this).addRequestToQueue(stringRequest);
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, object,
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        System.out.println(response);
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
+//            }
+//        });
+
     }
 
     @Override
