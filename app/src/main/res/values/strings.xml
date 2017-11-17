@@ -9,5 +9,5 @@
     <string name="you_got_a_match">you got\na match❣</string>
     <string name="dont_waste_time">Don\'t waste time HERE!\nShe is waiting&#8230;\nAPPROACH❣</string>
     <string name="i_wanna_talk">I wanna talk&#8230;</string>
-    <string name="location_url">http://10.100.102.9:5000/location?loa=%s&amp;la=%s&amp;e=%s</string>
+    <string name="location_url"  formatted="false">http://10.100.102.9:5000/location?loa=%s&amp;la=%s&amp;e=%s</string>
 </resources>

@@ -2,14 +2,9 @@ package com.franktech.mia.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -18,29 +13,29 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-
-import com.franktech.mia.MiaApplication;
 import com.franktech.mia.R;
+import com.franktech.mia.VolleySingleton;
 import com.franktech.mia.utilities.FacebookInfo;
 import com.franktech.mia.utilities.SharedPreSingleton;
-import com.franktech.mia.VolleySingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Arrays;
 
 public class MainActivity extends AbstractAppCompatActivity {
 
     private CallbackManager callback;
-    private SharedPreSingleton prefUtil = SharedPreSingleton.getInstance(getApplicationContext());
+    private SharedPreSingleton prefUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        prefUtil = SharedPreSingleton.getInstance(getApplicationContext());
+
 
         if (!isLoggedIn()) {
 
@@ -104,6 +99,7 @@ public class MainActivity extends AbstractAppCompatActivity {
 
             prefUtil.putString(key, val);
 
+            sendData(object);
         }
     }
 

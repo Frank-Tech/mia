@@ -10,7 +10,7 @@ import android.support.v4.content.ContextCompat;
  */
 
 public enum Permissions {
-    LOCATION(96313, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,  Manifest.permission.ACCESS_FINE_LOCATION});
+    LOCATION(1, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,  Manifest.permission.ACCESS_FINE_LOCATION});
 
     private int requestCode;
     private String[] permissions;

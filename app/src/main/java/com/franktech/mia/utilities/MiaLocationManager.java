@@ -40,7 +40,7 @@ import java.util.Iterator;
 public class MiaLocationManager {
 
     private LocationListener locationListener;
-    public static final long MIN_TIME = 0;
+    public static final long MIN_TIME = 5;
     public static final long MIN_DISTANCE = 5;
 
     private GoogleMap mMap;
