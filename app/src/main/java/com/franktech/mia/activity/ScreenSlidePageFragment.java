@@ -1,11 +1,13 @@
 package com.franktech.mia.activity;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.franktech.mia.R;
@@ -16,6 +18,8 @@ import com.franktech.mia.R;
 
 public class ScreenSlidePageFragment extends Fragment {
 
+    private Button talk;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -24,6 +28,8 @@ public class ScreenSlidePageFragment extends Fragment {
         ImageView picture = (ImageView) rootView.findViewById(R.id.match_picture);
         picture.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.barby));
 
+        talk = (Button) rootView.findViewById(R.id.talk);
+        talk.setTypeface(Typeface.createFromAsset(getContext().getAssets(), "IndieFlower.ttf"));
 
         return rootView;
     }

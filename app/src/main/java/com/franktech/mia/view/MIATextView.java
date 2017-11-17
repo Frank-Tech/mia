@@ -12,22 +12,24 @@ import android.util.AttributeSet;
 public class MIATextView extends android.support.v7.widget.AppCompatTextView{
     public MIATextView(Context context) {
         super(context);
+        initFont(context);
     }
 
     public MIATextView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        initFont(context);
     }
 
     public MIATextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs);
+        initFont(context);
+    }
+
+    private void initFont(Context context) {
         if (this.isInEditMode()) return ;
 
-//        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.font_style);
-//        final String customFont = a.getString(R.styleable.font_style[0]);
-
-        //Build a custom typeface-cache here!
         this.setTypeface(
-                Typeface.createFromAsset(context.getAssets(), "smart_watch.ttf")
+                Typeface.createFromAsset(context.getAssets(), "IndieFlower.ttf")
         );
     }
 
