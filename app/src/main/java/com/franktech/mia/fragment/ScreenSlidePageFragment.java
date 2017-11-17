@@ -1,4 +1,4 @@
-package com.franktech.mia.activity;
+package com.franktech.mia.fragment;
 
 import android.graphics.Typeface;
 import android.os.Bundle;

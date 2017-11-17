@@ -11,7 +11,7 @@ import android.widget.ImageView;
 
 import com.franktech.mia.R;
 
-public class DecideActivity extends AppCompatActivity {
+public class DecideActivity extends AbstractAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

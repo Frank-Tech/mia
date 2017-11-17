@@ -9,18 +9,18 @@ import android.util.AttributeSet;
  * Created by tzlilswimmer on 17/11/2017.
  */
 
-public class MIATextView extends android.support.v7.widget.AppCompatTextView{
-    public MIATextView(Context context) {
+public class MiaTextView extends android.support.v7.widget.AppCompatTextView{
+    public MiaTextView(Context context) {
         super(context);
         initFont(context);
     }
 
-    public MIATextView(Context context, @Nullable AttributeSet attrs) {
+    public MiaTextView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initFont(context);
     }
 
-    public MIATextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public MiaTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs);
         initFont(context);
     }
