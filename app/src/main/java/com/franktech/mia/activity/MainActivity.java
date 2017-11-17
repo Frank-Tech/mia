@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -48,49 +49,54 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = SharedPrefUtil.getSharedPref(getApplicationContext());
         final SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        callback = CallbackManager.Factory.create();
+        if (isLoggedIn() == false) {
+            callback = CallbackManager.Factory.create();
 
-        LoginButton loginButton = (LoginButton) findViewById(R.id.open_with_facebook);
-        loginButton.setReadPermissions(Arrays.asList(
-                "public_profile", "email", "user_birthday", "user_friends", "user_about_me"));
+            LoginButton loginButton = (LoginButton) findViewById(R.id.open_with_facebook);
+            loginButton.setReadPermissions(Arrays.asList(
+                    "public_profile", "email", "user_birthday", "user_friends", "user_about_me"));
 
-        loginButton.registerCallback(callback, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
+            loginButton.registerCallback(callback, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
 
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(JSONObject object, GraphResponse response) {
-                                try {
-                                    setUserData(object, editor);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                    GraphRequest request = GraphRequest.newMeRequest(
+                            loginResult.getAccessToken(),
+                            new GraphRequest.GraphJSONObjectCallback() {
+                                @Override
+                                public void onCompleted(JSONObject object, GraphResponse response) {
+                                    try {
+                                        setUserData(object, editor);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                            }
-                        });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,link,email,gender,birthday, age_range");
-                request.setParameters(parameters);
-                request.executeAsync();
+                            });
+                    Bundle parameters = new Bundle();
+                    parameters.putString("fields", "id,name,link,email,gender,birthday, age_range");
+                    request.setParameters(parameters);
+                    request.executeAsync();
 
 
-                Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-                startActivity(intent);
-            }
+                    Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+                    startActivity(intent);
+                }
 
-            @Override
-            public void onCancel() {
-                Log.e(getClass().getName(), "onCancel");
-            }
+                @Override
+                public void onCancel() {
+                    Log.e(getClass().getName(), "onCancel");
+                }
 
-            @Override
-            public void onError(FacebookException error) {
-                Log.e(getClass().getName(), error.getMessage(), error);
-            }
-        });
+                @Override
+                public void onError(FacebookException error) {
+                    Log.e(getClass().getName(), error.getMessage(), error);
+                }
+            });
 
+        }else{
+            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void setUserData(JSONObject object, SharedPreferences.Editor editor) throws JSONException {
@@ -125,7 +131,9 @@ public class MainActivity extends AppCompatActivity {
         try {
             object.put("mid", Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
             String query = URLEncoder.encode(object.toString(), "utf-8");
-            String url = "http://10.100.102.9:5000/user?d=" + query;
+//            String url = "http://10.100.102.9:5000/user?d=" + query;
+            String url = "http://52.14.253.14:5000/user?d=" + query;
+
 
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                     new Response.Listener<String>() {
@@ -165,6 +173,11 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 
+    }
+
+    public boolean isLoggedIn() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null;
     }
 
     @Override

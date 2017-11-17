@@ -17,20 +17,21 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:orientation="vertical"
             android:gravity="center">
 
             <ImageView
                 android:id="@+id/heart"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/ic_hearts"/>
 
-            <TextView
+            <com.franktech.mia.view.MIATextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:textColor="@color/colorPrimary"
+                android:textSize="22sp"
+                android:textColor="@android:color/white"
                 android:text="@string/you_got_a_match"
                 android:gravity="center"/>
 
@@ -39,17 +40,18 @@
 
         <ImageView
             android:id="@+id/match_picture"
-            android:layout_width="125dp"
-            android:layout_height="155dp"
+            android:layout_width="145dp"
+            android:layout_height="165dp"
             android:layout_alignParentEnd="true"
+            android:background="@android:color/white"
             android:scaleType="centerCrop"/>
 
-        <TextView
+        <com.franktech.mia.view.MIATextView
             android:id="@+id/match_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="@color/colorPrimary"
+            android:textSize="25sp"
+            android:textColor="@android:color/white"
             android:layout_below="@id/match_picture"
             android:layout_alignStart="@+id/match_picture"
             android:text="Tali, 25\nTel Aviv"/>
@@ -59,22 +61,26 @@
     <RelativeLayout
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/got_match_container"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp">
+        android:layout_marginTop="30dp">
 
-        <TextView
+        <com.franktech.mia.view.MIATextView
             android:id="@+id/dont_waste_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="22sp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:lineSpacingExtra="8dp"
+            android:textAlignment="center"
             android:text="@string/dont_waste_time"/>
 
         <Button
+            android:id="@+id/talk"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:text="@string/i_wanna_talk"
             android:textAllCaps="false"
             android:textSize="25sp"
