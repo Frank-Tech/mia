@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.franktech.mia"
@@ -25,11 +25,11 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile 'com.facebook.android:facebook-core:[4,5)'
-    compile 'com.facebook.android:facebook-login:[4,5)'
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.facebook.android:facebook-core:4.28.0'
+    compile 'com.facebook.android:facebook-login:4.28.0'
+    compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.android.gms:play-services-maps:11.0.4'
+    compile 'com.google.android.gms:play-services-maps:11.6.0'
     testCompile 'junit:junit:4.12'
     compile 'com.android.volley:volley:1.0.0'
 }
