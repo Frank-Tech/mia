@@ -6,7 +6,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.android.volley.VolleyError;
 import com.franktech.mia.R;
+import com.franktech.mia.VolleySingleton;
 import com.franktech.mia.model.User;
 import com.franktech.mia.utilities.SharedPrefSingleton;
 
@@ -71,6 +73,23 @@ public class DecideActivity extends AbstractAppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                String url = String.format(getString(R.string.push_url),
+                        prefUtil.getString(SharedPrefSingleton.FCM_TOKEN_KEY, ""),
+                        "Someone likes you",
+                        "click to see who likes you");
+
+                VolleySingleton.getInstance(getApplicationContext()).request(url,
+                        new VolleySingleton.VolleyCallback() {
+                            @Override
+                            public void onSuccess(String response) {
+
+                            }
+
+                            @Override
+                            public void onFailed(VolleyError error) {
+
+                            }
+                        });
             }
         });
 

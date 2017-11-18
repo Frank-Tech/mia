@@ -1,11 +1,16 @@
 package com.franktech.mia.model;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.Marker;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -19,9 +24,10 @@ public class User implements Serializable {
     private String name;
     private String id;
     private Date birthday;
-    private LatLng latLng;
+    private double lat;
+    private double lng;
     private boolean isMale;
-    private Drawable profilePic;
+    private byte[] profilePic;
     private Marker marker;
 
     public User(String name, String faceId, Date birthday, LatLng latLng, boolean isMale) {
@@ -33,9 +39,10 @@ public class User implements Serializable {
         this.name = name;
         this.id = faceId;
         this.birthday = birthday;
-        this.latLng = latLng;
+        this.lat = latLng.latitude;
+        this.lng = latLng.longitude;
         this.isMale = isMale;
-        this.profilePic = profilePic;
+        this.profilePic = drawableToByreArray(profilePic);
         this.marker = marker;
     }
 
@@ -48,11 +55,12 @@ public class User implements Serializable {
     }
 
     public LatLng getLatLng() {
-        return latLng;
+        return new LatLng(lat, lng);
     }
 
     public void setLatLng(LatLng latLng) {
-        this.latLng = latLng;
+        this.lat = latLng.latitude;
+        this.lng = latLng.longitude;
     }
 
     public String getName() {
@@ -81,11 +89,28 @@ public class User implements Serializable {
 
     @Nullable
     public Drawable getProfilePic() {
-        return profilePic;
+        return byteArrayToDrawable();
     }
 
     public void setProfilePic(Drawable profilePic) {
-        this.profilePic = profilePic;
+        this.profilePic = drawableToByreArray(profilePic);
+    }
+
+    private byte[] drawableToByreArray(Drawable drawable){
+
+        if (drawable == null) return null;
+
+        Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+
+        return b;
+    }
+
+    private Drawable byteArrayToDrawable() {
+        return new BitmapDrawable(BitmapFactory.decodeByteArray(profilePic, 0, profilePic.length));
     }
 
     public Marker getMarker() {
