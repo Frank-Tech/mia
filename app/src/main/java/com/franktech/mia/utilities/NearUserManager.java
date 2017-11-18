@@ -71,6 +71,9 @@ public class NearUserManager {
             if (!users.containsKey(user.getId())) {
 
                 if(blockedUsers != null && blockedUsers.contains(user.getId())) continue;
+                if((FacebookInfo.getInfoKeys().get(2).equals("female") &&
+                        user.isMale() == false || FacebookInfo.getInfoKeys().get(2).equals("male") &&
+                        user.isMale()) )continue;
 
                 new MiaAsyncTask<Void ,Void, Drawable>() {
                     @Override
@@ -174,6 +177,7 @@ public class NearUserManager {
 
         mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f));
 
+        // TODO: 18/11/2017 when implementing server - filter by gender
         final String url = String.format(
                 context.getResources().getString(R.string.location_url),
                 String.valueOf(location.getLatitude()),
