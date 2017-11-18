@@ -15,6 +15,7 @@ public class SharedPrefSingleton {
     private final static String PREF_NAME  = "MIA_SHARED_PREF";
     public static final String UUID_KEY = "uuid";
     public static final String BLOCKED_USERS_KEY = "blocked_users";
+    public static final String FCM_TOKEN_KEY = "fcm_token";
 
     public static SharedPrefSingleton instance;
 

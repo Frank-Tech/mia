@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1062655507732",
+    "firebase_url": "https://mia-app-1509197301602.firebaseio.com",
+    "project_id": "mia-app-1509197301602",
+    "storage_bucket": "mia-app-1509197301602.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1062655507732:android:158792e6661f10ac",
+        "android_client_info": {
+          "package_name": "com.franktech.mia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1062655507732-calufonnshb116ats4j99gne0ersppjl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.franktech.mia",
+            "certificate_hash": "391ed271bc01a290fad5dc6389dadf580875abf2"
+          }
+        },
+        {
+          "client_id": "1062655507732-8l1i4pgvvavh398g8hehs2srpuddmqpr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMGylCrktjrFXmoFpwFsb80xT22bvZfbc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1062655507732-8l1i4pgvvavh398g8hehs2srpuddmqpr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

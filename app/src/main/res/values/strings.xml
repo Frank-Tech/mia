@@ -14,6 +14,11 @@
     <string name="base_url"> http://192.168.1.115:5000/</string>
 
     <string name="location_url" formatted="false">location?lo=%s&amp;la=%s&amp;e=%s</string>
+    <string name="push_url" formatted="false">push?id=%s&amp;t=%s&amp;b=%s</string>
+
     <string name="user_url" formatted="false" >user?d=%s</string>
     <string name="server_url">http://52.14.253.14:5000/</string>
+    <string name="channel_name">FCMChannel</string>
+    <string name="channel_id">01</string>
+    <string name="channel_description">push notification from fcm</string>
 </resources>

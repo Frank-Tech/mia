@@ -71,7 +71,7 @@ public class NearUserManager {
             if (!users.containsKey(user.getId())) {
 
                 if(blockedUsers != null && blockedUsers.contains(user.getId())) continue;
-                
+
                 new MiaAsyncTask<Void ,Void, Drawable>() {
                     @Override
                     protected void onPostExecute(Drawable drawable) {
@@ -97,6 +97,7 @@ public class NearUserManager {
                                 Intent intent = new Intent(context, DecideActivity.class);
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable(User.USER_KEY, user);
+                                intent.putExtras(bundle);
                                 context.startActivity(intent);
                                 return false;
                             }
