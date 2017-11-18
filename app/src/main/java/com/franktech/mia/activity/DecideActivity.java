@@ -1,20 +1,16 @@
 package com.franktech.mia.activity;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.android.volley.VolleyError;
 import com.franktech.mia.R;
-import com.franktech.mia.VolleySingleton;
-import com.franktech.mia.utilities.FacebookInfo;
-import com.franktech.mia.utilities.FacebookProfilePicture;
-import com.franktech.mia.utilities.SharedPreSingleton;
+import com.franktech.mia.model.User;
+import com.franktech.mia.utilities.SharedPrefSingleton;
+
+import java.util.Set;
 
 public class DecideActivity extends AbstractAppCompatActivity {
 
@@ -22,15 +18,21 @@ public class DecideActivity extends AbstractAppCompatActivity {
     private Button like;
     private Button unlike;
     private ImageView block;
+    private User user;
+    private SharedPrefSingleton prefUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_decide);
 
+        prefUtil = SharedPrefSingleton.getInstance(this);
+        user = (User) getIntent().getSerializableExtra(User.USER_KEY);
+
         bindView();
         setListeners();
-        setProfilePicture();
+
+        picture.setImageDrawable(user.getProfilePic());
     }
 
     private void bindView() {
@@ -44,17 +46,24 @@ public class DecideActivity extends AbstractAppCompatActivity {
         block.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                VolleySingleton.getInstance(DecideActivity.this).request("block", new VolleySingleton.VolleyCallback() {
-                    @Override
-                    public void onSuccess(String response) {
 
-                    }
+                Set<String> set =  prefUtil.getStringSet(SharedPrefSingleton.BLOCKED_USERS_KEY, null);
 
-                    @Override
-                    public void onFailed(VolleyError error) {
-
-                    }
-                });
+                if(!set.contains(user.getId())){
+                    set.add(user.getId());
+                    prefUtil.putStringSet(SharedPrefSingleton.BLOCKED_USERS_KEY, set);
+                }
+//                VolleySingleton.getInstance(DecideActivity.this).request("block", new VolleySingleton.VolleyCallback() {
+//                    @Override
+//                    public void onSuccess(String response) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailed(VolleyError error) {
+//
+//                    }
+//                });
             }
         });
 
@@ -71,22 +80,5 @@ public class DecideActivity extends AbstractAppCompatActivity {
 
             }
         });
-    }
-
-    private void setProfilePicture() {
-        new AsyncTask<Void, Void, Drawable>() {
-            @Override
-            protected Drawable doInBackground(Void... voids) {
-                Drawable pic = FacebookProfilePicture.getFacebookProfilePic(getApplicationContext(),
-                        SharedPreSingleton.getInstance(getApplicationContext())
-                                .getString(FacebookInfo.getInfoKeys().get(4), ""));
-                return pic;
-            }
-
-            @Override
-            protected void onPostExecute(Drawable drawable) {
-                picture.setImageDrawable(drawable);
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 }
