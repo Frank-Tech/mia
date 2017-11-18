@@ -16,7 +16,7 @@ import com.facebook.login.widget.LoginButton;
 import com.franktech.mia.R;
 import com.franktech.mia.VolleySingleton;
 import com.franktech.mia.utilities.FacebookInfo;
-import com.franktech.mia.utilities.SharedPreSingleton;
+import com.franktech.mia.utilities.SharedPrefSingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,15 +27,14 @@ import java.net.URLEncoder;
 public class MainActivity extends AbstractAppCompatActivity {
 
     private CallbackManager callback;
-    private SharedPreSingleton prefUtil;
+    private SharedPrefSingleton prefUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        prefUtil = SharedPreSingleton.getInstance(getApplicationContext());
-
+        prefUtil = SharedPrefSingleton.getInstance(getApplicationContext());
 
         if (!isLoggedIn()) {
 
@@ -110,7 +109,7 @@ public class MainActivity extends AbstractAppCompatActivity {
     private void sendData(JSONObject object) {
         try {
 
-            object.put("mid", prefUtil.getString(SharedPreSingleton.UUID_KEY, null));
+            object.put("mid", prefUtil.getString(SharedPrefSingleton.UUID_KEY, null));
 
             String query = URLEncoder.encode(object.toString(), "utf-8");
             String url = getString(R.string.user_url) + query;

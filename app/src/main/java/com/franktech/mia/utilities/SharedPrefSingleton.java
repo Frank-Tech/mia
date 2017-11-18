@@ -3,25 +3,28 @@ package com.franktech.mia.utilities;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.Set;
+
 /**
  * Created by tzlilswimmer on 09/11/2017.
  */
 
-public class SharedPreSingleton {
+public class SharedPrefSingleton {
 
 
     private final static String PREF_NAME  = "MIA_SHARED_PREF";
     public static final String UUID_KEY = "uuid";
-    ;
-    public static SharedPreSingleton instance;
+    public static final String BLOCKED_USERS_KEY = "blocked_users";
+
+    public static SharedPrefSingleton instance;
 
     private SharedPreferences preferences;
 
-    public static SharedPreSingleton getInstance(Context context){
+    public static SharedPrefSingleton getInstance(Context context){
         if(instance == null){
-            synchronized (SharedPreSingleton.class){
+            synchronized (SharedPrefSingleton.class){
                 if(instance == null){
-                    instance = new SharedPreSingleton(context);
+                    instance = new SharedPrefSingleton(context);
                 }
             }
         }
@@ -29,7 +32,7 @@ public class SharedPreSingleton {
         return instance;
     }
 
-    private SharedPreSingleton(Context context){
+    private SharedPrefSingleton(Context context){
         preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
 
@@ -39,7 +42,19 @@ public class SharedPreSingleton {
         editor.apply();
     }
 
+    // TODO: move to mongodb
+    public void putStringSet(String key, Set<String> value){
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putStringSet(key, value);
+        editor.apply();
+    }
+
     public String getString(String key, String def) {
         return preferences.getString(key, def);
     }
+
+    public Set<String> getStringSet(String key, Set<String> def) {
+        return preferences.getStringSet(key, def);
+    }
+
 }

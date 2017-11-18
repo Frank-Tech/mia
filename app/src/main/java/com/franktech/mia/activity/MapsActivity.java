@@ -1,18 +1,23 @@
 package com.franktech.mia.activity;
 
 import android.content.Context;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
 import com.franktech.mia.Permissions;
 import com.franktech.mia.R;
-import com.franktech.mia.utilities.MiaLocationManager;
+import com.franktech.mia.utilities.NearUserManager;
 import com.franktech.mia.utilities.PermissionManager;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
 public class MapsActivity extends AbstractAppCompatActivity implements OnMapReadyCallback {
+
+    public static final float MIN_DISTANCE = 0;
+    public static final long MIN_TIME = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +44,39 @@ public class MapsActivity extends AbstractAppCompatActivity implements OnMapRead
         final LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
         PermissionManager.requestPermissions(this, Permissions.LOCATION, new PermissionManager.onPermissionGranted() {
+
             @Override
             public void run() {
                 if (locationManager != null) {
                     locationManager.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER,
-                            MiaLocationManager.MIN_TIME,
-                            MiaLocationManager.MIN_DISTANCE,
-                            MiaLocationManager.getInstance(MapsActivity.this, googleMap).getLocationListener());
+                            MIN_TIME,
+                            MIN_DISTANCE,
+                            new LocationListener() {
+                                @Override
+                                public void onLocationChanged(Location location) {
+                                    NearUserManager.getInstance(googleMap).OnNearUsersUpdate(MapsActivity.this, location);
+                                }
+
+                                @Override
+                                public void onStatusChanged(String s, int i, Bundle bundle) {
+
+                                }
+
+                                @Override
+                                public void onProviderEnabled(String s) {
+
+                                }
+
+                                @Override
+                                public void onProviderDisabled(String s) {
+
+                                }
+                            });
                 }
             }
         });
     }
+
+
 }

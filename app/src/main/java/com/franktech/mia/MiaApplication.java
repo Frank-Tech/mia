@@ -1,11 +1,10 @@
 package com.franktech.mia;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import com.franktech.mia.utilities.SharedPreSingleton;
+import com.franktech.mia.utilities.SharedPrefSingleton;
 
 import java.util.UUID;
 
@@ -21,11 +20,11 @@ public class MiaApplication extends Application {
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
 
-        String uuid = SharedPreSingleton.getInstance(this).getString(SharedPreSingleton.UUID_KEY, null);
+        String uuid = SharedPrefSingleton.getInstance(this).getString(SharedPrefSingleton.UUID_KEY, null);
 
         if(uuid == null){
             uuid = UUID.randomUUID().toString();
-            SharedPreSingleton.getInstance(this).putString(SharedPreSingleton.UUID_KEY, uuid);
+            SharedPrefSingleton.getInstance(this).putString(SharedPrefSingleton.UUID_KEY, uuid);
         }
     }
 }

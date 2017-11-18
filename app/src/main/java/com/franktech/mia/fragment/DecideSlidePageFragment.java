@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import com.franktech.mia.R;
 import com.franktech.mia.utilities.FacebookInfo;
 import com.franktech.mia.utilities.FacebookProfilePicture;
-import com.franktech.mia.utilities.SharedPreSingleton;
+import com.franktech.mia.utilities.SharedPrefSingleton;
 import com.franktech.mia.view.MiaTextView;
 
 import java.util.Calendar;
@@ -52,7 +52,7 @@ public class DecideSlidePageFragment extends Fragment {
             @Override
             protected Drawable doInBackground(Void... voids) {
                 Drawable pic = FacebookProfilePicture.getFacebookProfilePic(getContext(),
-                        SharedPreSingleton.getInstance(getContext())
+                        SharedPrefSingleton.getInstance(getContext())
                                 .getString(FacebookInfo.getInfoKeys().get(4), ""));
                 return pic;
             }
@@ -66,7 +66,7 @@ public class DecideSlidePageFragment extends Fragment {
     }
 
     private void setUserDetails() {
-        String name = SharedPreSingleton.getInstance(getContext())
+        String name = SharedPrefSingleton.getInstance(getContext())
                 .getString(FacebookInfo.getInfoKeys().get(1), "").split(" ")[0];
 
         Calendar cal = Calendar.getInstance();
