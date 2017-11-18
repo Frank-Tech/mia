@@ -24,6 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.franktech.mia.R;
 import com.franktech.mia.VolleySingleton;
 import com.franktech.mia.activity.DecideActivity;
+import com.franktech.mia.model.User;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -36,7 +37,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by franktech on 17/11/17.
@@ -44,7 +48,6 @@ import java.util.Iterator;
 
 public class MiaLocationManager {
 
-    private final Context context;
     private LocationListener locationListener;
     public static final long MIN_TIME = 5;
     public static final long MIN_DISTANCE = 5;
@@ -67,12 +70,12 @@ public class MiaLocationManager {
     }
 
     private MiaLocationManager(final Context context, GoogleMap map) {
-        this.context = context;
+
         this.mMap = map;
         locationListener = new LocationListener() {
 
             @Override
-            public void onLocationChanged(Location location) {
+            public void onLocationChanged(final Location location) {
 
                 String url = String.format(
                         context.getResources().getString(R.string.location_url),
@@ -84,9 +87,30 @@ public class MiaLocationManager {
                 VolleySingleton.getInstance(context).request(url, new VolleySingleton.VolleyCallback() {
                     @Override
                     public void onSuccess(String response) {
-                        try {
-                            JSONObject nearUsers = new JSONObject(response);
-                            Iterator<?> keys = nearUsers.keys();
+
+                            List<User> users = new ArrayList<>();
+
+                            LatLng latLng = new LatLng(location.getLatitude() - 0.000005, location.getLongitude());
+                            users.add(new User("Avraham Frank", "100015974979753", new Date(1511021743), latLng, true));
+
+                            latLng = new LatLng(location.getLatitude(), location.getLongitude() - 0.000005);
+                            users.add(new User("benjamin umi frank", "1020667303", new Date(1511121743), latLng, true));
+
+                            latLng = new LatLng(location.getLatitude() - 0.000005, location.getLongitude() - 0.000005);
+                            users.add(new User("Zvi Mendelson", "100002943197376", new Date(1511921743), latLng, true));
+
+                            latLng = new LatLng(location.getLatitude() + -0.000005, location.getLongitude());
+                            users.add(new User("Avi Salomon", "544356333", new Date(1510021743), latLng, true));
+
+                            latLng = new LatLng(location.getLatitude(), location.getLongitude() + 0.000005);
+                            users.add(new User("Miki Balin", "100004328658378", new Date(1411121743), latLng, true));
+
+                            latLng = new LatLng(location.getLatitude() + 0.000005, location.getLongitude() + 0.000005);
+                            users.add(new User("Ella Bar-Yaacov", "1397714808", new Date(1311921743), latLng, false));
+
+//                        try {
+//                            JSONObject nearUsers = new JSONObject(response);
+//                            Iterator<?> keys = nearUsers.keys();
 
 //                            while (keys.hasNext()) {
 //                                String key = (String) keys.next();
@@ -94,12 +118,12 @@ public class MiaLocationManager {
 //                                    double userLong = ((JSONObject) nearUsers.get(key)).getDouble("longitude");
 //                                    double userLat = ((JSONObject) nearUsers.get(key)).getDouble("latitude");
 //                                    String faceId = ((JSONObject) nearUsers.get(key)).getString("face_id");
-//                                }
-//                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+////                                }
+////                            }
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
                     }
 
                     @Override

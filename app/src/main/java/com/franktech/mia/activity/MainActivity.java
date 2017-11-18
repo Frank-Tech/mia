@@ -66,8 +66,7 @@ public class MainActivity extends AbstractAppCompatActivity {
                     request.executeAsync();
 
 
-                    Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-                    startActivity(intent);
+                    openMap();
                 }
 
                 @Override
@@ -82,9 +81,14 @@ public class MainActivity extends AbstractAppCompatActivity {
             });
 
         }else{
-            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-            startActivity(intent);
+            openMap();
         }
+    }
+
+    private void openMap() {
+        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     private void setUserData(JSONObject object) throws JSONException {
@@ -109,8 +113,7 @@ public class MainActivity extends AbstractAppCompatActivity {
             object.put("mid", prefUtil.getString(SharedPreSingleton.UUID_KEY, null));
 
             String query = URLEncoder.encode(object.toString(), "utf-8");
-//            String url = "http://10.100.102.9:5000/user?d=" + query;
-            String url = "http://52.14.253.14:5000/user?d=" + query;
+            String url = getString(R.string.user_url) + query;
 
 
             VolleySingleton.getInstance(this).request(url, new VolleySingleton.VolleyCallback() {

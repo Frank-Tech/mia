@@ -10,6 +10,10 @@
     <string name="dont_waste_time">Don\'t waste time HERE!\nShe is waiting&#8230;\nAPPROACH❣</string>
     <string name="i_wanna_talk">I wanna talk&#8230;</string>
 
-    <string name="location_url"  formatted="false">http://52.14.253.14:5000/location?lo=%s&amp;la=%s&amp;e=%s</string>
+    <!--<string name="base_url">http://52.14.253.14:5000/</string>-->
+    <string name="base_url"> http://192.168.1.115:5000/</string>
+
+    <string name="location_url" formatted="false">location?lo=%s&amp;la=%s&amp;e=%s</string>
+    <string name="user_url" formatted="false" >user?d=%s</string>
     <string name="server_url">http://52.14.253.14:5000/</string>
 </resources>

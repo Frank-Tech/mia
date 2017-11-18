@@ -49,8 +49,9 @@ public class VolleySingleton extends Volley{
         Volley.newRequestQueue(context).add(jsonObjectRequest);
     }
 
-    public void request(String url, final VolleyCallback callback){
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+    public void request(String url, final VolleyCallback callback) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getString(R.string.base_url) + url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

@@ -1,13 +1,8 @@
 package com.franktech.mia.activity;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 
 import com.franktech.mia.Permissions;
 import com.franktech.mia.R;
@@ -16,9 +11,6 @@ import com.franktech.mia.utilities.PermissionManager;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-
-import java.io.IOException;
-import java.net.URL;
 
 public class MapsActivity extends AbstractAppCompatActivity implements OnMapReadyCallback {
 

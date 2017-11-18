@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.android.volley.VolleyError;
 import com.franktech.mia.R;
+import com.franktech.mia.VolleySingleton;
 import com.franktech.mia.utilities.FacebookInfo;
 import com.franktech.mia.utilities.FacebookProfilePicture;
 import com.franktech.mia.utilities.SharedPreSingleton;
@@ -42,8 +44,17 @@ public class DecideActivity extends AbstractAppCompatActivity {
         block.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                VolleySingleton.getInstance(DecideActivity.this).request("block", new VolleySingleton.VolleyCallback() {
+                    @Override
+                    public void onSuccess(String response) {
 
+                    }
 
+                    @Override
+                    public void onFailed(VolleyError error) {
+
+                    }
+                });
             }
         });
 
