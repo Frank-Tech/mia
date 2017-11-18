@@ -36,8 +36,9 @@ public class StripBar extends RelativeLayout {
     private void initView(final Context context) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.strip_bar, this);
-        ImageButton interestedIcon= (ImageButton) view.findViewById(R.id.interested_icon);
-        interestedIcon.setOnClickListener(new OnClickListener() {
+        RelativeLayout container = view.findViewById(R.id.strip_bar_container);
+
+        container.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, MatchActivity.class);

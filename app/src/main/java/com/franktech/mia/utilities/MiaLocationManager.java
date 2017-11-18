@@ -137,7 +137,7 @@ public class MiaLocationManager {
             @Override
             protected Drawable doInBackground(Void... voids) {
                 Drawable pic = FacebookProfilePicture.getFacebookProfilePic(context,SharedPreSingleton.getInstance(context).
-                        getString(FacebookInfo.getInfoKeys().get(3), ""));
+                        getString(FacebookInfo.getInfoKeys().get(4), ""));
                 return pic;
             }
 

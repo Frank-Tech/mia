@@ -15,7 +15,7 @@ public class FacebookInfo {
 
 
     private static String[] infoKeys = new String[]{
-            EMAIL_KEY, "gender", "birth_day", "id"
+            EMAIL_KEY, "name", "gender", "birth_day", "id"
     };
 
     private static String[] permissions = new String[]{

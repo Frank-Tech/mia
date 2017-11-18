@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 
 import com.franktech.mia.R;
-import com.franktech.mia.fragment.ScreenSlidePageFragment;
+import com.franktech.mia.fragment.DecideSlidePageFragment;
 
 public class MatchActivity extends FragmentActivity {
 
@@ -43,7 +43,7 @@ public class MatchActivity extends FragmentActivity {
 //    }
 
     /**
-     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
+     * A simple pager adapter that represents 5 DecideSlidePageFragment objects, in
      * sequence.
      */
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
@@ -53,7 +53,7 @@ public class MatchActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return new ScreenSlidePageFragment();
+            return new DecideSlidePageFragment();
         }
 
         @Override

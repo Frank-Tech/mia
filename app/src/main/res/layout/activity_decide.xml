@@ -26,7 +26,8 @@
         android:layout_height="350dp"
         android:layout_below="@+id/block"
         android:layout_centerHorizontal="true"
-        android:scaleType="fitCenter"/>
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -35,13 +36,15 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true">
 
-        <Button
+        <com.franktech.mia.view.MiaButton
+            android:id="@+id/unlike"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/ic_cancel_music"
             android:layout_margin="20dp"/>
 
-        <Button
+        <com.franktech.mia.view.MiaButton
+            android:id="@+id/like"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:background="@drawable/ic_hearts"

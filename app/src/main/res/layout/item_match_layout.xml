@@ -75,7 +75,7 @@
             android:textAlignment="center"
             android:text="@string/dont_waste_time"/>
 
-        <Button
+        <com.franktech.mia.view.MiaButton
             android:id="@+id/talk"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
