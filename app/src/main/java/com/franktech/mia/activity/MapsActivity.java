@@ -59,20 +59,4 @@ public class MapsActivity extends AbstractAppCompatActivity implements OnMapRead
             }
         });
     }
-
-
-
-    private Bitmap getFacebookProfilePic(String faceId) {
-
-        Bitmap bitmap = null;
-
-        try {
-            URL imageUrl = new URL("https://grapgh.facebook.com/" + faceId + "/picture?type=large");
-            bitmap = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return bitmap;
-    }
 }

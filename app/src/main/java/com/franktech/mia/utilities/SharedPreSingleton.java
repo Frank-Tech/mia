@@ -29,9 +29,6 @@ public class SharedPreSingleton {
         return instance;
     }
 
-
-
-
     private SharedPreSingleton(Context context){
         preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
