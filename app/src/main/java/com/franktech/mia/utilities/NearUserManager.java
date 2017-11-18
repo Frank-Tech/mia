@@ -79,10 +79,12 @@ public class NearUserManager {
 
                         user.setProfilePic(drawable);
 
-                        mMap.addMarker(
+                        Marker marker = mMap.addMarker(
                                 new MarkerOptions()
                                         .position(user.getLatLng())
                                         .icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(context, user.getProfilePic()))));
+
+                        user.setMarker(marker);
 
                         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                             @Override
@@ -115,7 +117,7 @@ public class NearUserManager {
 
         for (User user : users.values()) {
             if (newUsers.containsKey(user.getId())) {
-                // todo: remove marker
+                user.getMarker().remove();
             }
         }
 
@@ -151,8 +153,18 @@ public class NearUserManager {
 
     public void OnNearUsersUpdate(final Context context, final Location location) {
 
+        LatLng user = new LatLng(location.getLatitude(), location.getLongitude());
+        mMap.addMarker(
+                new MarkerOptions()
+                        .position(user));
 
-        // todo set owner location
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Toast.makeText(context, "Test", Toast.LENGTH_LONG).show();
+            }
+        });
+
         mMap.moveCamera(
                 CameraUpdateFactory.newLatLng(
                         new LatLng(

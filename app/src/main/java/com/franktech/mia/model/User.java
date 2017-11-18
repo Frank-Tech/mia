@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,18 +22,21 @@ public class User implements Serializable {
     private LatLng latLng;
     private boolean isMale;
     private Drawable profilePic;
+    private Marker marker;
 
     public User(String name, String faceId, Date birthday, LatLng latLng, boolean isMale) {
-        this(name, faceId, birthday, latLng, isMale, null);
+        this(name, faceId, birthday, latLng, isMale, null, null);
     }
 
-    public User(String name, String faceId, Date birthday, LatLng latLng, boolean isMale, Drawable profilePic) {
+    public User(String name, String faceId, Date birthday, LatLng latLng, boolean isMale, Drawable profilePic,
+                Marker marker) {
         this.name = name;
         this.id = faceId;
         this.birthday = birthday;
         this.latLng = latLng;
         this.isMale = isMale;
         this.profilePic = profilePic;
+        this.marker = marker;
     }
 
     public String getId() {
@@ -82,5 +86,13 @@ public class User implements Serializable {
 
     public void setProfilePic(Drawable profilePic) {
         this.profilePic = profilePic;
+    }
+
+    public Marker getMarker() {
+        return marker;
+    }
+
+    public void setMarker(Marker marker) {
+        this.marker = marker;
     }
 }
