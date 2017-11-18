@@ -132,7 +132,7 @@ public class MiaLocationManager {
                     }
                 });
 
-                setLocation(context, new LatLng(location.getLatitude(), location.getLongitude()));
+                setUserLocation(new LatLng(location.getLatitude(), location.getLongitude()));
             }
 
             @Override
@@ -196,6 +196,17 @@ public class MiaLocationManager {
         loadPic.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
     }
+
+    private void setUserLocation(final LatLng location){
+        mMarker = mMap.addMarker(
+                new MarkerOptions()
+                        .position(location));
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo( 17.0f ) );
+
+    }
+
 
     private Bitmap getMarkerBitmapFromView(Context context, Drawable drawable) {
 

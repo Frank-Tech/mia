@@ -83,7 +83,7 @@ public class DecideSlidePageFragment extends Fragment {
         String city = "Tel Aviv";
         String userDetails = name + ", " + age + "\n" + city;
 
-        details.setTag(userDetails);
+        details.setText(userDetails);
     }
 }
 
