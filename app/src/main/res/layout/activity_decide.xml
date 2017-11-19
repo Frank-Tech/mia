@@ -47,7 +47,7 @@
             android:id="@+id/like"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:background="@drawable/ic_hearts"
+            android:background="@drawable/ic_heart"
             android:layout_margin="20dp"/>
     </LinearLayout>
 </RelativeLayout>

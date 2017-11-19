@@ -1,6 +1,5 @@
 package com.franktech.mia.activity;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -72,6 +71,13 @@ public class DecideActivity extends AbstractAppCompatActivity {
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Set<String> set =  prefUtil.getStringSet(SharedPrefSingleton.LIKED_USERS_KEY, null);
+
+                if(!set.contains(user.getId())){
+                    set.add(user.getId());
+                    prefUtil.putStringSet(SharedPrefSingleton.LIKED_USERS_KEY, set);
+                }
+
 
                 String url = String.format(getString(R.string.push_url),
                         prefUtil.getString(SharedPrefSingleton.FCM_TOKEN_KEY, ""),
@@ -96,7 +102,12 @@ public class DecideActivity extends AbstractAppCompatActivity {
         unlike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Set<String> set =  prefUtil.getStringSet(SharedPrefSingleton.DISLIKED_USERS_KEY, null);
 
+                if(!set.contains(user.getId())){
+                    set.add(user.getId());
+                    prefUtil.putStringSet(SharedPrefSingleton.DISLIKED_USERS_KEY, set);
+                }
             }
         });
     }

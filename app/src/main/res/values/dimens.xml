@@ -2,4 +2,5 @@
 <resources>
     <dimen name="marker_width_height">55dp</dimen>
     <dimen name="profile_image_width_height">48dp</dimen>
+    <dimen name="status_icon_width_height">25dp</dimen>
 </resources>

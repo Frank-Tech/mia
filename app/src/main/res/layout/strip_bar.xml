@@ -26,7 +26,7 @@
             android:id="@+id/interested_icon"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:src="@drawable/ic_hearts"
+            android:src="@drawable/ic_heart"
             android:background="?android:selectableItemBackground"/>
 
         <TextView

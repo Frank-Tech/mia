@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -85,7 +86,7 @@ public class NearUserManager {
                         Marker marker = mMap.addMarker(
                                 new MarkerOptions()
                                         .position(user.getLatLng())
-                                        .icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(context, user.getProfilePic()))));
+                                        .icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(context, user))));
 
                         user.setMarker(marker);
 
@@ -128,12 +129,19 @@ public class NearUserManager {
         this.users = newUsers;
     }
 
-    private Bitmap getMarkerBitmapFromView(Context context, Drawable drawable) {
-
+    private Bitmap getMarkerBitmapFromView(Context context, User user) {
         View customMarkerView = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.map_marker, null);
         ImageView markerImageView = customMarkerView.findViewById(R.id.profile_image);
+        ImageView statusImageView = customMarkerView.findViewById(R.id.status_icon);
 
-        markerImageView.setImageDrawable(drawable);
+        Set<String> likedUsers =  SharedPrefSingleton.getInstance(context).getStringSet(SharedPrefSingleton.BLOCKED_USERS_KEY, null);
+        Set<String> dislikedUsers =  SharedPrefSingleton.getInstance(context).getStringSet(SharedPrefSingleton.BLOCKED_USERS_KEY, null);
+        if(likedUsers != null && likedUsers.contains(user)){
+            statusImageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_heart));
+        }
+
+
+        markerImageView.setImageDrawable(user.getProfilePic());
 
         customMarkerView.measure(customMarkerView.getMeasuredWidth(), customMarkerView.getMeasuredHeight());
         customMarkerView.layout(0, 0, customMarkerView.getMeasuredWidth(), customMarkerView.getMeasuredHeight());
