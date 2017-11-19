@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 
 import com.franktech.mia.R;
 import com.franktech.mia.activity.MatchActivity;
+import com.franktech.mia.utilities.SharedPrefSingleton;
 
 /**
  * Created by tzlil on 07/10/17.
@@ -37,14 +38,20 @@ public class StripBar extends RelativeLayout {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.strip_bar, this);
         RelativeLayout container = view.findViewById(R.id.strip_bar_container);
+        final int likesCount = SharedPrefSingleton.getInstance(context).getInt(SharedPrefSingleton.COUNT_LIKED_ME);
 
         container.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, MatchActivity.class);
-                context.startActivity(intent);
+                if(likesCount > 0) {
+                    Intent intent = new Intent(context, MatchActivity.class);
+                    context.startActivity(intent);
+                }
             }
         });
+
+        MiaTextView likes = view.findViewById(R.id.likes_count);
+        likes.setText(String.valueOf(likesCount));
 
     }
 }

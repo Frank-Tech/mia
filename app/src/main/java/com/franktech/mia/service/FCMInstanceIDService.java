@@ -18,7 +18,7 @@ public class FCMInstanceIDService extends FirebaseInstanceIdService {
         try {
             SharedPrefSingleton
                     .getInstance(getApplicationContext())
-                    .putString(SharedPrefSingleton.FCM_TOKEN_KEY,URLEncoder.encode(FirebaseInstanceId.getInstance().getToken(), "utf-8"));
+                    .putString(SharedPrefSingleton.FCM_TOKEN_KEY, URLEncoder.encode(FirebaseInstanceId.getInstance().getToken(), "utf-8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

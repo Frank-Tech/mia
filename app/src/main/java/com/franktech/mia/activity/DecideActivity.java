@@ -1,6 +1,8 @@
 package com.franktech.mia.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -9,7 +11,12 @@ import com.android.volley.VolleyError;
 import com.franktech.mia.R;
 import com.franktech.mia.VolleySingleton;
 import com.franktech.mia.model.User;
+import com.franktech.mia.model.UsersStatus;
+import com.franktech.mia.utilities.DrawableUtil;
+import com.franktech.mia.utilities.FakeDataManager;
 import com.franktech.mia.utilities.SharedPrefSingleton;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Set;
 
@@ -26,6 +33,32 @@ public class DecideActivity extends AbstractAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_decide);
+
+        Intent openFromNotification = getIntent();
+        if(openFromNotification != null){
+            Set<String> blockedUsers =  SharedPrefSingleton.getInstance(this).getStringSet(SharedPrefSingleton.BLOCKED_USERS_KEY, null);
+            Set<String> dislikedUsers =  SharedPrefSingleton.getInstance(this).getStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, null);
+
+            String userId = openFromNotification.getStringExtra("user_id");
+
+            if(!(blockedUsers != null && blockedUsers.contains(userId))
+                    && !(dislikedUsers != null && dislikedUsers.contains(userId))){
+                    User user = FakeDataManager.users.get(userId);
+                    if(user.getId().equals(userId)) {
+                        switch (UsersStatus.getStatus(getApplicationContext(), user.getId())) {
+                            case LIKED_ME: {
+                                Set<String> set =  prefUtil.getStringSet(SharedPrefSingleton.LIKED_ME_USERS_KEY, null);
+
+                                if(!set.contains(user.getId())){
+                                    set.add(user.getId());
+                                    prefUtil.putStringSet(SharedPrefSingleton.LIKED_ME_USERS_KEY, set);
+                                }
+                                break;
+                            }
+                        }
+                    }
+            }
+        }
 
         prefUtil = SharedPrefSingleton.getInstance(this);
         user = (User) getIntent().getSerializableExtra(User.USER_KEY);
@@ -78,11 +111,11 @@ public class DecideActivity extends AbstractAppCompatActivity {
                     prefUtil.putStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, set);
                 }
 
-
-                String url = String.format(getString(R.string.push_url),
+                String url = String.format(getString(R.string.base_url) + getString(R.string.push_url),
                         prefUtil.getString(SharedPrefSingleton.FCM_TOKEN_KEY, ""),
                         "Someone likes you",
-                        "click to see who likes you");
+                        "click to see who likes you",
+                        user.getId());
 
                 VolleySingleton.getInstance(getApplicationContext()).request(url,
                         new VolleySingleton.VolleyCallback() {

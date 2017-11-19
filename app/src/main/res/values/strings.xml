@@ -9,12 +9,13 @@
     <string name="you_got_a_match">you got\na match❣</string>
     <string name="dont_waste_time">Don\'t waste time HERE!\nShe is waiting&#8230;\nAPPROACH❣</string>
     <string name="i_wanna_talk">I wanna talk&#8230;</string>
+    <string name="i_dont_want_talk">dismiss</string>
 
-    <!--<string name="base_url">http://52.14.253.14:5000/</string>-->
-    <string name="base_url"> http://192.168.1.115:5000/</string>
+    <string name="base_url">http://52.14.253.14:5000/</string>
+    <!--<string name="base_url"> http://192.168.1.115:5000/</string>-->
 
     <string name="location_url" formatted="false">location?lo=%s&amp;la=%s&amp;e=%s</string>
-    <string name="push_url" formatted="false">push?id=%s&amp;t=%s&amp;b=%s</string>
+    <string name="push_url" formatted="false">push?id=%s&amp;t=%s&amp;b=%s&amp;f=%s</string>
 
     <string name="user_url" formatted="false" >user?d=%s</string>
     <string name="server_url">http://52.14.253.14:5000/</string>

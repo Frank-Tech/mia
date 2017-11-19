@@ -175,6 +175,7 @@ public class NearUserManager {
                 break;
             }case NONE:{
                 statusImageView.setVisibility(View.GONE);
+                break;
             }
         }
 

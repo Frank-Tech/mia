@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.franktech.mia.utilities.FakeDataManager;
 import com.franktech.mia.utilities.SharedPrefSingleton;
 
 import java.util.UUID;
@@ -26,5 +27,7 @@ public class MiaApplication extends Application {
             uuid = UUID.randomUUID().toString();
             SharedPrefSingleton.getInstance(this).putString(SharedPrefSingleton.UUID_KEY, uuid);
         }
+
+        FakeDataManager.setUsers();
     }
 }
