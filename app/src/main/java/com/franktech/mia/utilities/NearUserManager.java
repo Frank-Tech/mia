@@ -95,18 +95,42 @@ public class NearUserManager {
             if (!users.containsKey(user.getId())) {
 
                 if(blockedUsers != null && blockedUsers.contains(user.getId())) continue;
+                if((FacebookInfo.getInfoKeys().get(2).equals("female") &&
+                        user.isMale() == false || FacebookInfo.getInfoKeys().get(2).equals("male") &&
+                        user.isMale()) )continue;
 
                 new MiaAsyncTask<User ,Void, User>() {
                     @Override
                     protected void onPostExecute(final User user) {
                         super.onPostExecute(user);
 
-                        mMap.addMarker(
+                        Marker marker = mMap.addMarker(
                                 new MarkerOptions()
                                         .position(user.getLatLng())
                                         .icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(context, user.getProfilePic())))
                                     .title(user.getName())
                         );
+
+                        user.setMarker(marker);
+
+                        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                            @Override
+                            public void onInfoWindowClick(Marker marker) {
+                                Toast.makeText(context, "Test", Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+                        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                            @Override
+                            public boolean onMarkerClick(Marker marker) {
+                                Intent intent = new Intent(context, DecideActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable(User.USER_KEY, user);
+                                intent.putExtras(bundle);
+                                context.startActivity(intent);
+                                return false;
+                            }
+                        });
                     }
 
                     @Override
@@ -122,7 +146,7 @@ public class NearUserManager {
 
         for (User user : users.values()) {
             if (newUsers.containsKey(user.getId())) {
-                // todo: remove marker
+                user.getMarker().remove();
             }
         }
 
@@ -158,6 +182,7 @@ public class NearUserManager {
 
     public void OnNearUsersUpdate(final Context context, final Location location) {
 
+        // TODO: 18/11/2017 when implementing server - filter by gender
         final String url = String.format(
                 context.getResources().getString(R.string.location_url),
                 String.valueOf(location.getLatitude()),

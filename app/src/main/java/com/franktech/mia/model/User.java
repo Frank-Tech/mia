@@ -7,6 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.Marker;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
@@ -26,12 +28,14 @@ public class User implements Serializable {
     private double lng;
     private boolean isMale;
     private byte[] profilePic;
+    private transient Marker marker;
 
     public User(String name, String faceId, Date birthday, LatLng latLng, boolean isMale) {
-        this(name, faceId, birthday, latLng, isMale, null);
+        this(name, faceId, birthday, latLng, isMale, null, null);
     }
 
-    public User(String name, String faceId, Date birthday, LatLng latLng, boolean isMale, Drawable profilePic) {
+    public User(String name, String faceId, Date birthday, LatLng latLng, boolean isMale, Drawable profilePic,
+                Marker marker) {
         this.name = name;
         this.id = faceId;
         this.birthday = birthday;
@@ -39,6 +43,7 @@ public class User implements Serializable {
         this.lng = latLng.longitude;
         this.isMale = isMale;
         this.profilePic = drawableToByreArray(profilePic);
+        this.marker = marker;
     }
 
     public String getId() {
@@ -108,5 +113,11 @@ public class User implements Serializable {
         return new BitmapDrawable(BitmapFactory.decodeByteArray(profilePic, 0, profilePic.length));
     }
 
+    public Marker getMarker() {
+        return marker;
+    }
 
+    public void setMarker(Marker marker) {
+        this.marker = marker;
+    }
 }

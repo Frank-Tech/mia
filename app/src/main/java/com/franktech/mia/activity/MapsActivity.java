@@ -15,6 +15,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends AbstractAppCompatActivity implements OnMapReadyCallback {
 
@@ -52,7 +53,9 @@ public class MapsActivity extends AbstractAppCompatActivity implements OnMapRead
                 if (locationManager != null) {
 
                     Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+                    LatLng ownerLatlng = new LatLng(location.getLatitude(), location.getLongitude());
+                    googleMap.addMarker(new MarkerOptions().position(ownerLatlng));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(ownerLatlng));
                     googleMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f));
 
                     locationManager.requestLocationUpdates(
