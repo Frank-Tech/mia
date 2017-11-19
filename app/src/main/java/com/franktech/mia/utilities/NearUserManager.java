@@ -15,12 +15,10 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.franktech.mia.R;
-import com.franktech.mia.VolleySingleton;
-import com.franktech.mia.activity.DecideActivity;
+import com.franktech.mia.ui.activity.DecideActivity;
 import com.franktech.mia.model.MiaAsyncTask;
 import com.franktech.mia.model.User;
 import com.franktech.mia.model.UsersStatus;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -145,7 +143,7 @@ public class NearUserManager {
 
                             @Override
                             protected User doInBackground(User... users) {
-                                users[0].setProfilePic(FacebookProfilePicture.getFacebookProfilePic(context, users[0].getId()));
+                                users[0].setProfilePic(FacebookInfo.getFacebookProfilePic(context, users[0].getId()));
                                 return users[0];
                             }
                         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, user);
@@ -201,7 +199,7 @@ public class NearUserManager {
                 SharedPrefSingleton.getInstance(context).getString(FacebookInfo.EMAIL_KEY, "")
         );
 
-        VolleySingleton.getInstance(context).request(url, new VolleySingleton.VolleyCallback() {
+        VolleySingleton.getInstance().request(context, url, new VolleySingleton.VolleyCallback() {
             @Override
             public void onSuccess(String response) {
 

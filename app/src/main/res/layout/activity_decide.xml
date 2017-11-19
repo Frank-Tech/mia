@@ -5,7 +5,7 @@
     android:layoutDirection="ltr"
     android:background="@drawable/regular_background">
 
-    <com.franktech.mia.view.StripBar
+    <com.franktech.mia.ui.view.StripBar
         android:id="@+id/strip_bar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -36,14 +36,14 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true">
 
-        <com.franktech.mia.view.MiaButton
+        <com.franktech.mia.ui.view.MiaButton
             android:id="@+id/unlike"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@drawable/ic_cancel_music"
             android:layout_margin="20dp"/>
 
-        <com.franktech.mia.view.MiaButton
+        <com.franktech.mia.ui.view.MiaButton
             android:id="@+id/like"
             android:layout_width="45dp"
             android:layout_height="45dp"

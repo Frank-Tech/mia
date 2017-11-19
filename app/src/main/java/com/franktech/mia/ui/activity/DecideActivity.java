@@ -1,6 +1,5 @@
-package com.franktech.mia.activity;
+package com.franktech.mia.ui.activity;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,7 +7,7 @@ import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
 import com.franktech.mia.R;
-import com.franktech.mia.VolleySingleton;
+import com.franktech.mia.utilities.VolleySingleton;
 import com.franktech.mia.model.User;
 import com.franktech.mia.utilities.SharedPrefSingleton;
 
@@ -78,7 +77,7 @@ public class DecideActivity extends AbstractAppCompatActivity {
                         "Someone likes you",
                         "click to see who likes you");
 
-                VolleySingleton.getInstance(getApplicationContext()).request(url,
+                VolleySingleton.getInstance().request(getApplicationContext(), url,
                         new VolleySingleton.VolleyCallback() {
                             @Override
                             public void onSuccess(String response) {

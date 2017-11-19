@@ -6,7 +6,7 @@
     android:layout_gravity="center|top"
     android:background="@drawable/strip_bar_background">
 
-    <com.franktech.mia.view.MiaTextView
+    <com.franktech.mia.ui.view.MiaTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/someone_is_interested"

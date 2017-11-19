@@ -1,4 +1,4 @@
-package com.franktech.mia.activity;
+package com.franktech.mia.ui.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 
 import com.franktech.mia.R;
-import com.franktech.mia.fragment.DecideSlidePageFragment;
+import com.franktech.mia.ui.fragment.DecideSlidePageFragment;
 
 public class MatchActivity extends FragmentActivity {
 

@@ -1,4 +1,4 @@
-package com.franktech.mia.view;
+package com.franktech.mia.ui.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,11 +6,10 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.franktech.mia.R;
-import com.franktech.mia.activity.MatchActivity;
+import com.franktech.mia.ui.activity.MatchActivity;
 
 /**
  * Created by tzlil on 07/10/17.

@@ -1,4 +1,4 @@
-package com.franktech.mia.view;
+package com.franktech.mia.ui.view;
 
 import android.content.Context;
 import android.graphics.Typeface;

@@ -1,4 +1,4 @@
-package com.franktech.mia;
+package com.franktech.mia.utilities;
 
 import android.content.Context;
 
@@ -9,31 +9,31 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.franktech.mia.R;
 
 /**
  * Created by tzlilswimmer on 09/11/2017.
  */
 
 public class VolleySingleton extends Volley{
-    private Context context;
+
     private static VolleySingleton instance;
 
-    private VolleySingleton(Context context) {
-        this.context = context;
+    private VolleySingleton() {
     }
 
-    public static VolleySingleton getInstance(Context context)
+    public static VolleySingleton getInstance()
     {
         //if no instance is initialized yet then create new instance
         //else return stored instance
         if (instance == null)
         {
-            instance = new VolleySingleton(context);
+            instance = new VolleySingleton();
         }
         return instance;
     }
 
-    private void addRequestToQueue(StringRequest stringRequest){
+    private void addRequestToQueue(Context context, StringRequest stringRequest){
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
@@ -41,7 +41,7 @@ public class VolleySingleton extends Volley{
         Volley.newRequestQueue(context).add(stringRequest);
     }
 
-    private void addRequestToQueue(JsonObjectRequest jsonObjectRequest){
+    private void addRequestToQueue(Context context, JsonObjectRequest jsonObjectRequest){
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
@@ -49,7 +49,7 @@ public class VolleySingleton extends Volley{
         Volley.newRequestQueue(context).add(jsonObjectRequest);
     }
 
-    public void request(String url, final VolleyCallback callback) {
+    public void request(Context context, String url, final VolleyCallback callback) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, context.getString(R.string.base_url) + url,
                 new Response.Listener<String>() {
@@ -69,7 +69,7 @@ public class VolleySingleton extends Volley{
             }
         });
 
-        addRequestToQueue(stringRequest);
+        addRequestToQueue(context, stringRequest);
     }
 
     public interface VolleyCallback{

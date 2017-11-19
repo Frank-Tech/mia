@@ -4,8 +4,10 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.support.v4.app.NotificationCompat;
 
+import com.franktech.mia.event.LikeEvent;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.squareup.otto.Bus;
 
 /**
  * Created by franktech on 18/11/17.
@@ -27,6 +29,6 @@ public class FCMService extends FirebaseMessagingService {
             notificationManager.notify(0, builder.build());
         }
 
-
+        new Bus().post(new LikeEvent());
     }
 }

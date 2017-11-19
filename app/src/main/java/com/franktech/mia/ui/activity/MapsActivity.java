@@ -1,15 +1,14 @@
-package com.franktech.mia.activity;
+package com.franktech.mia.ui.activity;
 
-import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-import com.franktech.mia.Permissions;
+import com.franktech.mia.utilities.permissions.Permissions;
 import com.franktech.mia.R;
 import com.franktech.mia.utilities.NearUserManager;
-import com.franktech.mia.utilities.PermissionManager;
+import com.franktech.mia.utilities.permissions.PermissionManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -44,7 +43,7 @@ public class MapsActivity extends AbstractAppCompatActivity implements OnMapRead
     @Override
     public void onMapReady(final GoogleMap googleMap) {
 
-        final LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        final LocationManager locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
 
         PermissionManager.requestPermissions(this, Permissions.LOCATION, new PermissionManager.onPermissionGranted() {
 

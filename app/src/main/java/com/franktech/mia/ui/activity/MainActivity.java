@@ -1,4 +1,4 @@
-package com.franktech.mia.activity;
+package com.franktech.mia.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.franktech.mia.R;
-import com.franktech.mia.VolleySingleton;
+import com.franktech.mia.utilities.VolleySingleton;
 import com.franktech.mia.utilities.FacebookInfo;
 import com.franktech.mia.utilities.SharedPrefSingleton;
 
@@ -115,7 +115,7 @@ public class MainActivity extends AbstractAppCompatActivity {
             String url = getString(R.string.user_url) + query;
 
 
-            VolleySingleton.getInstance(this).request(url, new VolleySingleton.VolleyCallback() {
+            VolleySingleton.getInstance().request(this, url, new VolleySingleton.VolleyCallback() {
                 @Override
                 public void onSuccess(String response) {
 

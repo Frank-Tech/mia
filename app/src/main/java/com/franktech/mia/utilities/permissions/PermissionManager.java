@@ -1,10 +1,8 @@
-package com.franktech.mia.utilities;
+package com.franktech.mia.utilities.permissions;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
-
-import com.franktech.mia.Permissions;
 
 import java.util.HashMap;
 import java.util.Map;

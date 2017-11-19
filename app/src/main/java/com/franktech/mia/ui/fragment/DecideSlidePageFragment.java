@@ -1,4 +1,4 @@
-package com.franktech.mia.fragment;
+package com.franktech.mia.ui.fragment;
 
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -11,9 +11,8 @@ import android.widget.ImageView;
 
 import com.franktech.mia.R;
 import com.franktech.mia.utilities.FacebookInfo;
-import com.franktech.mia.utilities.FacebookProfilePicture;
 import com.franktech.mia.utilities.SharedPrefSingleton;
-import com.franktech.mia.view.MiaTextView;
+import com.franktech.mia.ui.view.MiaTextView;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -51,7 +50,7 @@ public class DecideSlidePageFragment extends Fragment {
         new AsyncTask<Void, Void, Drawable>() {
             @Override
             protected Drawable doInBackground(Void... voids) {
-                Drawable pic = FacebookProfilePicture.getFacebookProfilePic(getContext(),
+                Drawable pic = FacebookInfo.getFacebookProfilePic(getContext(),
                         SharedPrefSingleton.getInstance(getContext())
                                 .getString(FacebookInfo.getInfoKeys().get(4), ""));
                 return pic;

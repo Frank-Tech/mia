@@ -1,4 +1,4 @@
-package com.franktech.mia;
+package com.franktech.mia.utilities.permissions;
 
 import android.Manifest;
 import android.content.Context;
