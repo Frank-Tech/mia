@@ -5,7 +5,7 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.franktech.mia"
-        minSdkVersion 25
+        minSdkVersion 23
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -27,7 +27,7 @@ dependencies {
 
     compile 'com.facebook.android:facebook-core:4.28.0'
     compile 'com.facebook.android:facebook-login:4.28.0'
-    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:appcompat-v7:27.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.android.gms:play-services-maps:11.6.0'
     compile 'com.google.firebase:firebase-messaging:11.6.0'
