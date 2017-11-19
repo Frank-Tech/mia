@@ -1,5 +1,8 @@
 package com.franktech.mia.fragment;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -47,8 +50,11 @@ public class DecideSlidePagerFragment extends Fragment {
         setStatus();
         setListeners();
 
-        picture.setImageDrawable(user.getProfilePic());
+        Bitmap profilePic = ((BitmapDrawable)user.getProfilePic()).getBitmap();
 
+        int nh = (int) ( profilePic.getHeight() * (512.0 / profilePic.getWidth()) );
+        Bitmap scaled = Bitmap.createScaledBitmap(profilePic, 512, nh, true);
+        picture.setImageBitmap(scaled);
 
         return rootView;
     }
@@ -126,7 +132,7 @@ public class DecideSlidePagerFragment extends Fragment {
             public void onClick(View view) {
                 Set<String> set =  prefUtil.getStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, null);
 
-                if(!set.contains(user.getId())){
+                if(set!= null && !set.contains(user.getId())){
                     set.add(user.getId());
                     prefUtil.putStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, set);
                 }

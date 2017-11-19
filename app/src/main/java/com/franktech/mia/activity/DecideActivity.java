@@ -15,7 +15,6 @@ import com.franktech.mia.model.UsersStatus;
 import com.franktech.mia.utilities.FakeDataManager;
 import com.franktech.mia.utilities.SharedPrefSingleton;
 
-import java.io.Serializable;
 import java.util.Set;
 
 public class DecideActivity extends AbstractAppCompatActivity {

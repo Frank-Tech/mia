@@ -21,7 +21,7 @@
 
     <string name="user_url" formatted="false" >user?d=%s</string>
     <string name="server_url">http://52.14.253.14:5000/</string>
-    <string name="status">Status: </string>
+    <string name="status">Status:   </string>
     <string name="i_liked">Waiting for response</string>
     <string name="liked_me">Waiting for your response</string>
     <string name="i_disliked">Disliked by you</string>

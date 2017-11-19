@@ -96,5 +96,8 @@ public class MapsActivity extends AbstractAppCompatActivity implements OnMapRead
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(18.0f));
     }
 
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
 }
