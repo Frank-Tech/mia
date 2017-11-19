@@ -71,11 +71,11 @@ public class DecideActivity extends AbstractAppCompatActivity {
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Set<String> set =  prefUtil.getStringSet(SharedPrefSingleton.LIKED_USERS_KEY, null);
+                Set<String> set =  prefUtil.getStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, null);
 
                 if(!set.contains(user.getId())){
                     set.add(user.getId());
-                    prefUtil.putStringSet(SharedPrefSingleton.LIKED_USERS_KEY, set);
+                    prefUtil.putStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, set);
                 }
 
 
@@ -102,11 +102,11 @@ public class DecideActivity extends AbstractAppCompatActivity {
         unlike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Set<String> set =  prefUtil.getStringSet(SharedPrefSingleton.DISLIKED_USERS_KEY, null);
+                Set<String> set =  prefUtil.getStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, null);
 
                 if(!set.contains(user.getId())){
                     set.add(user.getId());
-                    prefUtil.putStringSet(SharedPrefSingleton.DISLIKED_USERS_KEY, set);
+                    prefUtil.putStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, set);
                 }
             }
         });

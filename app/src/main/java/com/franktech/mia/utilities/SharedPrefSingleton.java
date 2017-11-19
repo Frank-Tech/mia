@@ -16,6 +16,7 @@ public class SharedPrefSingleton {
     public static final String UUID_KEY = "uuid";
     public static final String BLOCKED_USERS_KEY = "blocked_users";
     public static final String I_LIKED_USERS_KEY = "i_liked_users";
+    public static final String I_DISLIKED_USERS_KEY = "i_disliked_users";
     public static final String LIKED_ME_USERS_KEY = "likes_me_users";
     public static final String MATCHED_USERS_KEY = "matched_users";
     public static final String FCM_TOKEN_KEY = "fcm_token";

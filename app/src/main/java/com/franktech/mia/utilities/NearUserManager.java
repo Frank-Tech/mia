@@ -20,6 +20,7 @@ import com.franktech.mia.VolleySingleton;
 import com.franktech.mia.activity.DecideActivity;
 import com.franktech.mia.model.MiaAsyncTask;
 import com.franktech.mia.model.User;
+import com.franktech.mia.model.UsersStatus;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -159,10 +160,22 @@ public class NearUserManager {
         ImageView markerImageView = customMarkerView.findViewById(R.id.profile_image);
         ImageView statusImageView = customMarkerView.findViewById(R.id.status_icon);
 
-        Set<String> likedUsers =  SharedPrefSingleton.getInstance(context).getStringSet(SharedPrefSingleton.BLOCKED_USERS_KEY, null);
-        Set<String> dislikedUsers =  SharedPrefSingleton.getInstance(context).getStringSet(SharedPrefSingleton.BLOCKED_USERS_KEY, null);
-        if(likedUsers != null && likedUsers.contains(user)){
-            statusImageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_heart));
+        switch (UsersStatus.getStatus(context, user.getId())){
+            case I_LIKED:{
+                statusImageView.setImageDrawable(DrawableUtil.getIconWithColor(context, R.drawable.ic_heart, R.color.green));
+                break;
+            }case LIKED_ME:{
+                statusImageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_heart));
+                break;
+            }case I_DISLIKED:{
+                statusImageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_dislike));
+                break;
+            }case MATCHED:{
+                statusImageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_hearts));
+                break;
+            }case NONE:{
+                statusImageView.setVisibility(View.GONE);
+            }
         }
 
 
