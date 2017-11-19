@@ -145,7 +145,6 @@ public class NearUserManager {
 
                 newUsers.put(user.getId(), user);
             }
-        }
 
         for (User user : users.values()) {
             if (!newUsers.containsKey(user.getId())) {
