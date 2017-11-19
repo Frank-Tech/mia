@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="ltr"
+    android:background="@drawable/regular_background">
+
+
+    <ImageView
+        android:id="@+id/block"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?android:selectableItemBackground"
+        android:src="@drawable/ic_block_user"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <com.franktech.mia.view.MiaTextView
+            android:id="@+id/status_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:text="@string/status"
+            android:textStyle="bold"/>
+
+        <com.franktech.mia.view.MiaTextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/picture"
+        android:layout_width="280dp"
+        android:layout_height="350dp"
+        android:layout_below="@+id/block"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <com.franktech.mia.view.MiaButton
+            android:id="@+id/unlike"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_cancel_music"
+            android:layout_margin="20dp"/>
+
+        <com.franktech.mia.view.MiaButton
+            android:id="@+id/like"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/ic_heart"
+            android:layout_margin="20dp"/>
+    </LinearLayout>
+</RelativeLayout>

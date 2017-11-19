@@ -93,7 +93,7 @@ public class MapsActivity extends AbstractAppCompatActivity implements OnMapRead
     private void setMyMarker(LatLng ownerLatlng, GoogleMap googleMap) {
         googleMap.addMarker(new MarkerOptions().position(ownerLatlng));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(ownerLatlng));
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(19.0f));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(18.0f));
     }
 
 

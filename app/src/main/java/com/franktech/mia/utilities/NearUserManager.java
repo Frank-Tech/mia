@@ -88,7 +88,7 @@ public class NearUserManager {
     }
 
     private void loadUsersToMap(final Context context, final List<User> nearUsers) {
-
+        SharedPrefSingleton prefUtil = SharedPrefSingleton.getInstance(context);
         Map<String, User> newUsers = new HashMap<>();
 
         Set<String> blockedUsers =  SharedPrefSingleton.getInstance(context).getStringSet(SharedPrefSingleton.BLOCKED_USERS_KEY, null);
@@ -97,9 +97,9 @@ public class NearUserManager {
             if (!users.containsKey(user.getId())) {
 
                 if(blockedUsers != null && blockedUsers.contains(user.getId())) continue;
-                if((FacebookInfo.getInfoKeys().get(2).equals("female") &&
-                        user.isMale() == false || FacebookInfo.getInfoKeys().get(2).equals("male") &&
-                        user.isMale()) )continue;
+                if((prefUtil.getString(FacebookInfo.getInfoKeys().get(2),"").equals("female") && user.isMale() == false ||
+                        (prefUtil.getString(FacebookInfo.getInfoKeys().get(2),"").equals("male") &&
+                        user.isMale())))continue;
 
                         new MiaAsyncTask<User, Void, User>() {
                             @Override

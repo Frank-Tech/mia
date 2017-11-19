@@ -31,7 +31,7 @@ import java.util.Set;
  * Created by tzlil on 16/10/17.
  */
 
-public class DecideSlidePageFragment extends Fragment {
+public class MatchSlidePageFragment extends Fragment {
 
     private ImageView picture;
     private MiaTextView details;
@@ -40,6 +40,7 @@ public class DecideSlidePageFragment extends Fragment {
     private Button dismiss;
     private ViewPager viewPager;
     private SharedPrefSingleton prefUtil;
+    private MiaTextView dontWasteTime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,7 +62,8 @@ public class DecideSlidePageFragment extends Fragment {
         details = rootView.findViewById(R.id.match_details);
         talk = rootView.findViewById(R.id.talk);
         dismiss = rootView.findViewById(R.id.dismiss);
-        viewPager= getActivity().findViewById(R.id.match_pager);
+        viewPager = getActivity().findViewById(R.id.match_pager);
+        dontWasteTime = rootView.findViewById(R.id.dont_waste_time);
 
     }
 
@@ -101,6 +103,12 @@ public class DecideSlidePageFragment extends Fragment {
         String userDetails = user.getName() + ", " + age + "\n" + city;
 
         details.setText(userDetails);
+
+        if(user.isMale()){
+            dontWasteTime.setText(R.string.dont_waste_time_he);
+        }else{
+            dontWasteTime.setText(R.string.dont_waste_time_she);
+        }
     }
 
     private void setButtonsListeners() {

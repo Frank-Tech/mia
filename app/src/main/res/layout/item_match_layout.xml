@@ -73,7 +73,7 @@
             android:textColor="@android:color/white"
             android:lineSpacingExtra="8dp"
             android:textAlignment="center"
-            android:text="@string/dont_waste_time"/>
+            android:text="@string/dont_waste_time_she"/>
 
         <LinearLayout
             android:layout_width="wrap_content"

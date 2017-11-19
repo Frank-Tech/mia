@@ -7,7 +7,9 @@
     <string name="title_activity_maps">Map</string>
     <string name="someone_is_interested">someone is interested in you</string>
     <string name="you_got_a_match">you got\na match❣</string>
-    <string name="dont_waste_time">Don\'t waste time HERE!\nShe is waiting&#8230;\nAPPROACH❣</string>
+    <string name="dont_waste_time_she">Don\'t waste time HERE!\nShe is waiting&#8230;\nAPPROACH❣</string>
+    <string name="dont_waste_time_he">Don\'t waste time HERE!\nHe is waiting&#8230;\nAPPROACH❣</string>
+
     <string name="i_wanna_talk">I wanna talk&#8230;</string>
     <string name="i_dont_want_talk">dismiss</string>
 
@@ -19,5 +21,11 @@
 
     <string name="user_url" formatted="false" >user?d=%s</string>
     <string name="server_url">http://52.14.253.14:5000/</string>
+    <string name="status">Status: </string>
+    <string name="i_liked">Waiting for response</string>
+    <string name="liked_me">Waiting for your response</string>
+    <string name="i_disliked">Disliked by you</string>
+    <string name="waiting_for_choosing">Waiting for your choice</string>
+    <string name="no_one_interested">Find your match!</string>
 
 </resources>

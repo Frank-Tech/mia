@@ -16,8 +16,8 @@ public class FakeDataManager {
     public static Map<String, User> users = new HashMap<>();
 
     public static void setUsers(){
-        double lat = 32.075888;
-        double longt= 34.771872;
+        double lat = 31.903460;
+        double longt= 34.807313;
         LatLng latLng = new LatLng(lat - 0.0005, longt);
         users.put("100015974979753", new User("Avraham Frank", "100015974979753", new Date(1511021743), latLng, true));
 

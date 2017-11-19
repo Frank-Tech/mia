@@ -37,8 +37,15 @@ public class StripBar extends RelativeLayout {
     private void initView(final Context context) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.strip_bar, this);
+
         RelativeLayout container = view.findViewById(R.id.strip_bar_container);
+        MiaTextView title = view.findViewById(R.id.strip_bar_title);
+
         final int likesCount = SharedPrefSingleton.getInstance(context).getInt(SharedPrefSingleton.COUNT_LIKED_ME);
+
+        if(likesCount == 0){
+          title.setText(R.string.no_one_interested);
+        }
 
         container.setOnClickListener(new OnClickListener() {
             @Override
