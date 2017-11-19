@@ -10,9 +10,12 @@ import com.franktech.mia.Permissions;
 import com.franktech.mia.R;
 import com.franktech.mia.utilities.NearUserManager;
 import com.franktech.mia.utilities.PermissionManager;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends AbstractAppCompatActivity implements OnMapReadyCallback {
 
@@ -48,6 +51,13 @@ public class MapsActivity extends AbstractAppCompatActivity implements OnMapRead
             @Override
             public void run() {
                 if (locationManager != null) {
+
+                    Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    LatLng ownerLatlng = new LatLng(location.getLatitude(), location.getLongitude());
+                    googleMap.addMarker(new MarkerOptions().position(ownerLatlng));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(ownerLatlng));
+                    googleMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f));
+
                     locationManager.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER,
                             MIN_TIME,
@@ -55,7 +65,7 @@ public class MapsActivity extends AbstractAppCompatActivity implements OnMapRead
                             new LocationListener() {
                                 @Override
                                 public void onLocationChanged(Location location) {
-                                    NearUserManager.getInstance(googleMap).OnNearUsersUpdate(MapsActivity.this, location);
+                                    NearUserManager.getInstance(getApplicationContext(), googleMap).OnNearUsersUpdate(MapsActivity.this, location);
                                 }
 
                                 @Override

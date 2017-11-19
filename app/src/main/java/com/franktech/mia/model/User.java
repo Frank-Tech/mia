@@ -28,7 +28,7 @@ public class User implements Serializable {
     private double lng;
     private boolean isMale;
     private byte[] profilePic;
-    private Marker marker;
+    private transient Marker marker;
 
     public User(String name, String faceId, Date birthday, LatLng latLng, boolean isMale) {
         this(name, faceId, birthday, latLng, isMale, null, null);

@@ -45,11 +45,11 @@ public class NearUserManager {
     private static NearUserManager instance;
     private GoogleMap mMap;
 
-    public static NearUserManager getInstance(GoogleMap map) {
+    public static NearUserManager getInstance(Context context, GoogleMap map) {
         if (instance == null) {
             synchronized (NearUserManager.class) {
                 if (instance == null) {
-                    instance = new NearUserManager(map);
+                    instance = new NearUserManager(context, map);
                 }
             }
         }
@@ -57,12 +57,36 @@ public class NearUserManager {
         return instance;
     }
 
-    private NearUserManager(GoogleMap map) {
+    private NearUserManager(final Context context, GoogleMap map) {
         mMap = map;
         users = new HashMap<>();
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Toast.makeText(context, "Test", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+
+                for(User user : users.values()){
+                    if(marker.getPosition().equals(user.getLatLng())){
+                        Intent intent = new Intent(context, DecideActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(User.USER_KEY, user);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
+                    }
+                }
+                return false;
+            }
+        });
     }
 
-    private void loadUsersToMap(final Context context, List<User> nearUsers) {
+    private void loadUsersToMap(final Context context, final List<User> nearUsers) {
 
         Map<String, User> newUsers = new HashMap<>();
 
@@ -76,17 +100,17 @@ public class NearUserManager {
                         user.isMale() == false || FacebookInfo.getInfoKeys().get(2).equals("male") &&
                         user.isMale()) )continue;
 
-                new MiaAsyncTask<Void ,Void, Drawable>() {
+                new MiaAsyncTask<User ,Void, User>() {
                     @Override
-                    protected void onPostExecute(Drawable drawable) {
-                        super.onPostExecute(drawable);
-
-                        user.setProfilePic(drawable);
+                    protected void onPostExecute(final User user) {
+                        super.onPostExecute(user);
 
                         Marker marker = mMap.addMarker(
                                 new MarkerOptions()
                                         .position(user.getLatLng())
-                                        .icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(context, user))));
+                                        .icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(context, user)))
+                                    .title(user.getName())
+                        );
 
                         user.setMarker(marker);
 
@@ -111,10 +135,11 @@ public class NearUserManager {
                     }
 
                     @Override
-                    protected Drawable doInBackground(Void... voids) {
-                        return FacebookProfilePicture.getFacebookProfilePic(context, user.getId());
+                    protected User doInBackground(User... users) {
+                        users[0].setProfilePic(FacebookProfilePicture.getFacebookProfilePic(context, users[0].getId()));
+                        return users[0];
                     }
-                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, user);
             }
 
             newUsers.put(user.getId(), user);
@@ -165,26 +190,6 @@ public class NearUserManager {
 
     public void OnNearUsersUpdate(final Context context, final Location location) {
 
-        LatLng user = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.addMarker(
-                new MarkerOptions()
-                        .position(user));
-
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                Toast.makeText(context, "Test", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        mMap.moveCamera(
-                CameraUpdateFactory.newLatLng(
-                        new LatLng(
-                                location.getLatitude(),
-                                location.getLongitude())));
-
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f));
-
         // TODO: 18/11/2017 when implementing server - filter by gender
         final String url = String.format(
                 context.getResources().getString(R.string.location_url),
@@ -208,7 +213,7 @@ public class NearUserManager {
                 latLng = new LatLng(location.getLatitude() - 0.0005, location.getLongitude() - 0.0005);
                 users.add(new User("Zvi Mendelson", "100002943197376", new Date(1511921743), latLng, true));
 
-                latLng = new LatLng(location.getLatitude() + -0.0005, location.getLongitude());
+                latLng = new LatLng(location.getLatitude() + 0.0005, location.getLongitude());
                 users.add(new User("Avi Salomon", "544356333", new Date(1510021743), latLng, true));
 
                 latLng = new LatLng(location.getLatitude(), location.getLongitude() + 0.0005);

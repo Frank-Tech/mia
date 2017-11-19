@@ -20,7 +20,7 @@ public class MatchActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match);
 
-        ViewPager matchPager = (ViewPager) findViewById(R.id.match_pager);
+        ViewPager matchPager = findViewById(R.id.match_pager);
         matchPager.setOffscreenPageLimit(5);
         PagerAdapter pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         matchPager.setAdapter(pagerAdapter);
