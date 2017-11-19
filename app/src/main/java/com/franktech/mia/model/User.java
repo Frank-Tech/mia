@@ -113,8 +113,10 @@ public class User implements Serializable {
         return new BitmapDrawable(BitmapFactory.decodeByteArray(profilePic, 0, profilePic.length));
     }
 
-    public Marker getMarker() {
-        return marker;
+    public void removeMarker() {
+        if(marker!= null){
+            marker.remove();
+        }
     }
 
     public void setMarker(Marker marker) {

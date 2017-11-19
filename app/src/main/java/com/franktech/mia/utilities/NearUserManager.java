@@ -19,6 +19,7 @@ import com.franktech.mia.VolleySingleton;
 import com.franktech.mia.activity.DecideActivity;
 import com.franktech.mia.model.MiaAsyncTask;
 import com.franktech.mia.model.User;
+import com.franktech.mia.model.UsersStatus;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -94,59 +95,69 @@ public class NearUserManager {
         for (User user : nearUsers) {
             if (!users.containsKey(user.getId())) {
 
-                if(blockedUsers != null && blockedUsers.contains(user.getId())) continue;
-                if((FacebookInfo.getInfoKeys().get(2).equals("female") &&
-                        user.isMale() == false || FacebookInfo.getInfoKeys().get(2).equals("male") &&
-                        user.isMale()) )continue;
-
-                new MiaAsyncTask<User ,Void, User>() {
-                    @Override
-                    protected void onPostExecute(final User user) {
-                        super.onPostExecute(user);
-
-                        Marker marker = mMap.addMarker(
-                                new MarkerOptions()
-                                        .position(user.getLatLng())
-                                        .icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(context, user.getProfilePic())))
-                                    .title(user.getName())
-                        );
-
-                        user.setMarker(marker);
-
-                        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                            @Override
-                            public void onInfoWindowClick(Marker marker) {
-                                Toast.makeText(context, "Test", Toast.LENGTH_LONG).show();
-                            }
-                        });
-
-                        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                            @Override
-                            public boolean onMarkerClick(Marker marker) {
-                                Intent intent = new Intent(context, DecideActivity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable(User.USER_KEY, user);
-                                intent.putExtras(bundle);
-                                context.startActivity(intent);
-                                return false;
-                            }
-                        });
+                switch (UsersStatus.getStatus(context, user.getId())) {
+                    case BLOCK: {
+                        continue;
                     }
+                    case I_LIKED:
+                    case LIKED_ME:
+                    case MATCHED:
+                    case NONE:
 
-                    @Override
-                    protected User doInBackground(User... users) {
-                        users[0].setProfilePic(FacebookProfilePicture.getFacebookProfilePic(context, users[0].getId()));
-                        return users[0];
-                    }
-                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, user);
+                        if (blockedUsers != null && blockedUsers.contains(user.getId())) continue;
+                        if ((FacebookInfo.getInfoKeys().get(2).equals("female") &&
+                                user.isMale() == false || FacebookInfo.getInfoKeys().get(2).equals("male") &&
+                                user.isMale())) continue;
+
+                        new MiaAsyncTask<User, Void, User>() {
+                            @Override
+                            protected void onPostExecute(final User user) {
+                                super.onPostExecute(user);
+
+                                Marker marker = mMap.addMarker(
+                                        new MarkerOptions()
+                                                .position(user.getLatLng())
+                                                .icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(context, user.getProfilePic())))
+                                                .title(user.getName())
+                                );
+
+                                user.setMarker(marker);
+
+                                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                                    @Override
+                                    public void onInfoWindowClick(Marker marker) {
+                                        Toast.makeText(context, "Test", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+
+                                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                    @Override
+                                    public boolean onMarkerClick(Marker marker) {
+                                        Intent intent = new Intent(context, DecideActivity.class);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putSerializable(User.USER_KEY, user);
+                                        intent.putExtras(bundle);
+                                        context.startActivity(intent);
+                                        return false;
+                                    }
+                                });
+                            }
+
+                            @Override
+                            protected User doInBackground(User... users) {
+                                users[0].setProfilePic(FacebookProfilePicture.getFacebookProfilePic(context, users[0].getId()));
+                                return users[0];
+                            }
+                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, user);
+                }
+
+                newUsers.put(user.getId(), user);
             }
-
-            newUsers.put(user.getId(), user);
         }
 
         for (User user : users.values()) {
-            if (newUsers.containsKey(user.getId())) {
-                user.getMarker().remove();
+            if (!newUsers.containsKey(user.getId())) {
+                user.removeMarker();
             }
         }
 
