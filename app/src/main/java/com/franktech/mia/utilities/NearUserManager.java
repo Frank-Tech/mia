@@ -101,54 +101,55 @@ public class NearUserManager {
                         user.isMale() == false || FacebookInfo.getInfoKeys().get(2).equals("male") &&
                         user.isMale()) )continue;
 
-                new MiaAsyncTask<User ,Void, User>() {
-                    @Override
-                    protected void onPostExecute(final User user) {
-                        super.onPostExecute(user);
-
-                        Marker marker = mMap.addMarker(
-                                new MarkerOptions()
-                                        .position(user.getLatLng())
-                                        .icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(context, user)))
-                                    .title(user.getName())
-                        );
-
-                        user.setMarker(marker);
-
-                        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                        new MiaAsyncTask<User, Void, User>() {
                             @Override
-                            public void onInfoWindowClick(Marker marker) {
-                                Toast.makeText(context, "Test", Toast.LENGTH_LONG).show();
-                            }
-                        });
+                            protected void onPostExecute(final User user) {
+                                super.onPostExecute(user);
 
-                        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                Marker marker = mMap.addMarker(
+                                        new MarkerOptions()
+                                                .position(user.getLatLng())
+                                                .icon(BitmapDescriptorFactory.fromBitmap(getMarkerBitmapFromView(context, user)))
+                                                .title(user.getName())
+                                );
+
+                                user.setMarker(marker);
+
+                                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                                    @Override
+                                    public void onInfoWindowClick(Marker marker) {
+                                        Toast.makeText(context, "Test", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+
+                                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                    @Override
+                                    public boolean onMarkerClick(Marker marker) {
+                                        Intent intent = new Intent(context, DecideActivity.class);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putSerializable(User.USER_KEY, user);
+                                        intent.putExtras(bundle);
+                                        context.startActivity(intent);
+                                        return false;
+                                    }
+                                });
+                            }
+
                             @Override
-                            public boolean onMarkerClick(Marker marker) {
-                                Intent intent = new Intent(context, DecideActivity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable(User.USER_KEY, user);
-                                intent.putExtras(bundle);
-                                context.startActivity(intent);
-                                return false;
+                            protected User doInBackground(User... users) {
+                                users[0].setProfilePic(FacebookProfilePicture.getFacebookProfilePic(context, users[0].getId()));
+                                return users[0];
                             }
-                        });
-                    }
+                        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, user);
+                }
 
-                    @Override
-                    protected User doInBackground(User... users) {
-                        users[0].setProfilePic(FacebookProfilePicture.getFacebookProfilePic(context, users[0].getId()));
-                        return users[0];
-                    }
-                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, user);
+                newUsers.put(user.getId(), user);
             }
-
-            newUsers.put(user.getId(), user);
         }
 
         for (User user : users.values()) {
-            if (newUsers.containsKey(user.getId())) {
-                user.getMarker().remove();
+            if (!newUsers.containsKey(user.getId())) {
+                user.removeMarker();
             }
         }
 
