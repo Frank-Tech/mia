@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="55dp"
         android:layout_marginStart="55dp">
 
@@ -25,7 +25,7 @@
                 android:id="@+id/heart"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/ic_hearts"/>
+                android:src="@drawable/ic_heart"/>
 
             <com.franktech.mia.ui.view.MiaTextView
                 android:layout_width="wrap_content"
@@ -73,18 +73,36 @@
             android:textColor="@android:color/white"
             android:lineSpacingExtra="8dp"
             android:textAlignment="center"
-            android:text="@string/dont_waste_time"/>
+            android:text="@string/dont_waste_time_she"/>
 
-        <com.franktech.mia.ui.view.MiaButton
-            android:id="@+id/talk"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:text="@string/i_wanna_talk"
-            android:textAllCaps="false"
-            android:textSize="25sp"
-            android:layout_below="@+id/dont_waste_time"/>
+            android:orientation="vertical"
+            android:layout_below="@+id/dont_waste_time"
+            android:layout_centerHorizontal="true">
+
+            <com.franktech.mia.ui.view.MiaButton
+                android:id="@+id/talk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:text="@string/i_wanna_talk"
+                android:textAllCaps="false"
+                android:textSize="25sp" />
+
+            <com.franktech.mia.ui.view.MiaButton
+                android:id="@+id/dismiss"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:text="@string/i_dont_want_talk"
+                android:textAllCaps="false"
+                android:textSize="25sp" />
+        </LinearLayout>
+
     </RelativeLayout>
 
 

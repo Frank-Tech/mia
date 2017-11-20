@@ -18,4 +18,11 @@
         android:src="@drawable/barby"
         android:layout_gravity="center"
         android:contentDescription="@null"/>
+
+    <ImageView
+        android:id="@+id/status_icon"
+        android:layout_width="@dimen/status_icon_width_height"
+        android:layout_height="@dimen/status_icon_width_height"
+        android:layout_gravity="top|start"
+        android:contentDescription="@null"/>
 </FrameLayout>

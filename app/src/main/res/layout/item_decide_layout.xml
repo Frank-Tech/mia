@@ -5,11 +5,6 @@
     android:layoutDirection="ltr"
     android:background="@drawable/regular_background">
 
-    <com.franktech.mia.ui.view.StripBar
-        android:id="@+id/strip_bar"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_alignParentTop="true"/>
 
     <ImageView
         android:id="@+id/block"
@@ -18,7 +13,33 @@
         android:background="?android:selectableItemBackground"
         android:src="@drawable/ic_block_user"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/strip_bar"/>
+        android:layout_alignParentTop="true"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <com.franktech.mia.ui.view.MiaTextView
+            android:id="@+id/status_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:text="@string/status"
+            android:textStyle="bold"/>
+
+        <com.franktech.mia.ui.view.MiaTextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+
 
     <ImageView
         android:id="@+id/picture"
@@ -26,7 +47,6 @@
         android:layout_height="350dp"
         android:layout_below="@+id/block"
         android:layout_centerHorizontal="true"
-        android:scaleType="centerInside"
         android:adjustViewBounds="true"/>
 
     <LinearLayout
@@ -47,7 +67,7 @@
             android:id="@+id/like"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:background="@drawable/ic_hearts"
+            android:background="@drawable/ic_heart"
             android:layout_margin="20dp"/>
     </LinearLayout>
 </RelativeLayout>

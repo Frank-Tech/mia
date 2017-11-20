@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
 
+import com.franktech.mia.utilities.SharedPrefSingleton;
+
 /**
  * Created by franktech on 17/11/17.
  */
@@ -37,4 +39,13 @@ public enum Permissions {
 
         return true;
     }
+
+    public boolean isAskedBefore(Context context){
+        return SharedPrefSingleton.getInstance(context).getBoolean(this.name(), false);
+    }
+
+    public void setAskedBefore(Context context){
+        SharedPrefSingleton.getInstance(context).putBoolean(this.name(), true);
+    }
 }
+

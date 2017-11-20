@@ -19,6 +19,7 @@ public class FacebookInfo {
     public static final String FIELDS_KEY = "fields";
     public static final String FIELDS_VALUE = "id, name, link, email, gender, birthday, age_range";
     public static final String EMAIL_KEY = "email";
+    private static final Class TAG = FacebookInfo.class;
 
 
     private static String[] infoKeys = new String[]{
@@ -43,10 +44,9 @@ public class FacebookInfo {
         try {
             URL imageUrl = new URL("https://graph.facebook.com/" + faceId + "/picture?type=large");
             Bitmap bitmap = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
-
             drawable = new BitmapDrawable(context.getResources(), bitmap);
         } catch (Exception e) {
-            e.printStackTrace();
+            MiaLogger.e(TAG, e.getMessage(), e);
         }
 
         return drawable;

@@ -56,16 +56,12 @@ public class VolleySingleton extends Volley{
                     @Override
                     public void onResponse(String response) {
                         callback.onSuccess(response);
-                        System.out.println(response);
                     }
 
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 callback.onFailed(error);
-                System.out.println("Something went wrong!");
-                error.printStackTrace();
-
             }
         });
 

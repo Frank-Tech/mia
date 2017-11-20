@@ -6,4 +6,6 @@
     <color name="gray_background">#c1c1ea</color>
     <color name="dark_purple">#2E0854</color>
     <color name="light_purple">#555994</color>
+    <color name="green">#00E500</color>
+    <color name="gray">#939393</color>
 </resources>

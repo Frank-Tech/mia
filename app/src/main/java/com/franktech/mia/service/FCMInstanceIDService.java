@@ -1,5 +1,6 @@
 package com.franktech.mia.service;
 
+import com.franktech.mia.utilities.MiaLogger;
 import com.franktech.mia.utilities.SharedPrefSingleton;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
@@ -13,14 +14,16 @@ import java.net.URLEncoder;
 
 public class FCMInstanceIDService extends FirebaseInstanceIdService {
 
+    private static final Class TAG = FCMInstanceIDService.class;
+
     @Override
     public void onTokenRefresh() {
         try {
             SharedPrefSingleton
                     .getInstance(getApplicationContext())
-                    .putString(SharedPrefSingleton.FCM_TOKEN_KEY,URLEncoder.encode(FirebaseInstanceId.getInstance().getToken(), "utf-8"));
+                    .putString(SharedPrefSingleton.FCM_TOKEN_KEY, URLEncoder.encode(FirebaseInstanceId.getInstance().getToken(), "utf-8"));
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            MiaLogger.e(TAG, e.getMessage(), e);
         }
     }
 

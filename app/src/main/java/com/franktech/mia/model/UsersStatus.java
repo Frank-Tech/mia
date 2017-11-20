@@ -14,6 +14,7 @@ import java.util.Set;
 public enum UsersStatus {
     BLOCK(SharedPrefSingleton.BLOCKED_USERS_KEY),
     I_LIKED(SharedPrefSingleton.I_LIKED_USERS_KEY),
+    I_DISLIKED(SharedPrefSingleton.I_DISLIKED_USERS_KEY),
     LIKED_ME(SharedPrefSingleton.LIKED_ME_USERS_KEY),
     MATCHED(SharedPrefSingleton.MATCHED_USERS_KEY),
     NONE(null);

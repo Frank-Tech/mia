@@ -3,7 +3,6 @@ package com.franktech.mia.ui.view;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.widget.Button;
 
 /**
  * Created by tzlilswimmer on 18/11/2017.

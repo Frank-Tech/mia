@@ -14,12 +14,14 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends AbstractAppCompatActivity implements OnMapReadyCallback {
 
     public static final float MIN_DISTANCE = 0;
     public static final long MIN_TIME = 5;
+    private Marker myMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,22 +51,27 @@ public class MapsActivity extends AbstractAppCompatActivity implements OnMapRead
 
             @Override
             public void run() {
+                
                 if (locationManager != null) {
 
                     Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    LatLng ownerLatlng = new LatLng(location.getLatitude(), location.getLongitude());
-                    googleMap.addMarker(new MarkerOptions().position(ownerLatlng));
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(ownerLatlng));
-                    googleMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f));
+
+                    if (location != null) {
+                        LatLng ownerLatlng = new LatLng(location.getLatitude(), location.getLongitude());
+                        setMyMarker(ownerLatlng, googleMap);
+                    }
 
                     locationManager.requestLocationUpdates(
+
                             LocationManager.NETWORK_PROVIDER,
                             MIN_TIME,
                             MIN_DISTANCE,
                             new LocationListener() {
                                 @Override
                                 public void onLocationChanged(Location location) {
-                                    NearUserManager.getInstance(getApplicationContext(), googleMap).OnNearUsersUpdate(MapsActivity.this, location);
+                                    LatLng ownerLatlng = new LatLng(location.getLatitude(), location.getLongitude());
+                                    setMyMarker(ownerLatlng, googleMap);
+                                    NearUserManager.getInstance().OnNearUsersUpdate(MapsActivity.this, googleMap, location);
                                 }
 
                                 @Override
@@ -87,5 +94,19 @@ public class MapsActivity extends AbstractAppCompatActivity implements OnMapRead
         });
     }
 
+    private void setMyMarker(LatLng ownerLatlng, GoogleMap googleMap) {
 
+        if(myMarker != null) myMarker.remove();
+
+        myMarker = googleMap.addMarker(new MarkerOptions().position(ownerLatlng));
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(ownerLatlng));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(18.0f));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        NearUserManager.getInstance().clear();
+    }
 }

@@ -16,6 +16,7 @@ public class SharedPrefSingleton {
     public static final String UUID_KEY = "uuid";
     public static final String BLOCKED_USERS_KEY = "blocked_users";
     public static final String I_LIKED_USERS_KEY = "i_liked_users";
+    public static final String I_DISLIKED_USERS_KEY = "i_disliked_users";
     public static final String LIKED_ME_USERS_KEY = "likes_me_users";
     public static final String MATCHED_USERS_KEY = "matched_users";
     public static final String FCM_TOKEN_KEY = "fcm_token";
@@ -46,6 +47,12 @@ public class SharedPrefSingleton {
         editor.apply();
     }
 
+    public void putInt(String key, int value){
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(key, value);
+        editor.apply();
+    }
+
     // TODO: move to mongodb
     public void putStringSet(String key, Set<String> value){
         SharedPreferences.Editor editor = preferences.edit();
@@ -57,8 +64,22 @@ public class SharedPrefSingleton {
         return preferences.getString(key, def);
     }
 
+    public int getInt(String key) {
+        return preferences.getInt(key, 0);
+    }
+
     public Set<String> getStringSet(String key, Set<String> def) {
         return preferences.getStringSet(key, def);
     }
 
+    // TODO: move to mongodb
+    public void putBoolean(String key, boolean value){
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(key, value);
+        editor.apply();
+    }
+
+    public boolean getBoolean(String key, boolean def) {
+        return preferences.getBoolean(key, def);
+    }
 }
