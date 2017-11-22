@@ -81,7 +81,7 @@ public class DecideSlidePagerFragment extends Fragment {
         switch (UsersStatus.getStatus(getContext(), user.getId())) {
             case I_LIKED: {
                 status.setText(R.string.i_liked);
-                like.setVisibility(View.INVISIBLE);
+                like.setEnabled(false);
                 break;
             }
             case LIKED_ME: {
@@ -165,8 +165,8 @@ public class DecideSlidePagerFragment extends Fragment {
                             }
                         });
 
-                like.setVisibility(View.INVISIBLE);
-                unlike.setVisibility(View.VISIBLE);
+                like.setEnabled(false);
+                unlike.setEnabled(true);
 
                 if(decidePager.getAdapter().getCount() > decidePager.getAdapter().getItemPosition(user)) {
                     decidePager.setCurrentItem(decidePager.getAdapter().getItemPosition(user) + 1);
@@ -190,8 +190,8 @@ public class DecideSlidePagerFragment extends Fragment {
                     prefUtil.putStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, set);
                 }
 
-                unlike.setVisibility(View.INVISIBLE);
-                unlike.setVisibility(View.VISIBLE);
+                unlike.setEnabled(false);
+                like.setEnabled(true);
 
                 if(decidePager.getAdapter().getCount() > 0 &&
                         decidePager.getAdapter().getCount() < decidePager.getAdapter().getItemPosition(user)) {
