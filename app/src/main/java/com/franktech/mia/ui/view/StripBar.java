@@ -1,16 +1,16 @@
-package com.franktech.mia.view;
+package com.franktech.mia.ui.view;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.util.ArraySet;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.franktech.mia.R;
-import com.franktech.mia.activity.MatchActivity;
+import com.franktech.mia.ui.activity.UsersSlideActivity;
 import com.franktech.mia.utilities.SharedPrefSingleton;
 
 /**
@@ -41,17 +41,22 @@ public class StripBar extends RelativeLayout {
         RelativeLayout container = view.findViewById(R.id.strip_bar_container);
         MiaTextView title = view.findViewById(R.id.strip_bar_title);
 
-        final int likesCount = SharedPrefSingleton.getInstance(context).getInt(SharedPrefSingleton.COUNT_LIKED_ME);
+        final int likesCount =
 
-        if(likesCount == 0){
-          title.setText(R.string.no_one_interested);
+                SharedPrefSingleton
+                        .getInstance(context)
+                        .getStringSet(SharedPrefSingleton.LIKED_ME_USERS_KEY, new ArraySet<String>())
+                        .size();
+
+        if(likesCount == 0) {
+            title.setText(R.string.no_one_interested);
         }
 
         container.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(likesCount > 0) {
-                    Intent intent = new Intent(context, MatchActivity.class);
+                    Intent intent = new Intent(context, UsersSlideActivity.class);
                     context.startActivity(intent);
                 }
             }

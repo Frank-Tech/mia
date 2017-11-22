@@ -1,26 +1,27 @@
-package com.franktech.mia.activity;
+package com.franktech.mia.ui.activity;
 
-import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-import com.franktech.mia.Permissions;
+import com.franktech.mia.utilities.permissions.Permissions;
 import com.franktech.mia.R;
 import com.franktech.mia.utilities.NearUserManager;
-import com.franktech.mia.utilities.PermissionManager;
+import com.franktech.mia.utilities.permissions.PermissionManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends AbstractAppCompatActivity implements OnMapReadyCallback {
 
     public static final float MIN_DISTANCE = 0;
     public static final long MIN_TIME = 5;
+    private Marker myMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,54 +45,61 @@ public class MapsActivity extends AbstractAppCompatActivity implements OnMapRead
     @Override
     public void onMapReady(final GoogleMap googleMap) {
 
-        final LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        final LocationManager locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
 
         PermissionManager.requestPermissions(this, Permissions.LOCATION, new PermissionManager.onPermissionGranted() {
 
             @Override
             public void run() {
+                
                 if (locationManager != null) {
 
                     Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
                     if (location != null) {
                         LatLng ownerLatlng = new LatLng(location.getLatitude(), location.getLongitude());
                         setMyMarker(ownerLatlng, googleMap);
                     }
 
-                        locationManager.requestLocationUpdates(
-                                LocationManager.NETWORK_PROVIDER,
-                                MIN_TIME,
-                                MIN_DISTANCE,
-                                new LocationListener() {
-                                    @Override
-                                    public void onLocationChanged(Location location) {
-                                        LatLng ownerLatlng = new LatLng(location.getLatitude(), location.getLongitude());
-                                        setMyMarker(ownerLatlng, googleMap);
-                                        NearUserManager.getInstance(getApplicationContext(), googleMap).OnNearUsersUpdate(MapsActivity.this, location);
-                                    }
+                    locationManager.requestLocationUpdates(
 
-                                    @Override
-                                    public void onStatusChanged(String s, int i, Bundle bundle) {
+                            LocationManager.NETWORK_PROVIDER,
+                            MIN_TIME,
+                            MIN_DISTANCE,
+                            new LocationListener() {
+                                @Override
+                                public void onLocationChanged(Location location) {
+                                    LatLng ownerLatlng = new LatLng(location.getLatitude(), location.getLongitude());
+                                    setMyMarker(ownerLatlng, googleMap);
+                                    NearUserManager.getInstance().OnNearUsersUpdate(MapsActivity.this, googleMap, location);
+                                }
 
-                                    }
+                                @Override
+                                public void onStatusChanged(String s, int i, Bundle bundle) {
 
-                                    @Override
-                                    public void onProviderEnabled(String s) {
+                                }
 
-                                    }
+                                @Override
+                                public void onProviderEnabled(String s) {
 
-                                    @Override
-                                    public void onProviderDisabled(String s) {
+                                }
 
-                                    }
-                                });
+                                @Override
+                                public void onProviderDisabled(String s) {
+
+                                }
+                            });
                 }
             }
         });
     }
 
     private void setMyMarker(LatLng ownerLatlng, GoogleMap googleMap) {
-        googleMap.addMarker(new MarkerOptions().position(ownerLatlng));
+
+        if(myMarker != null) myMarker.remove();
+
+        myMarker = googleMap.addMarker(new MarkerOptions().position(ownerLatlng));
+
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(ownerLatlng));
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(18.0f));
     }
@@ -99,5 +107,6 @@ public class MapsActivity extends AbstractAppCompatActivity implements OnMapRead
     @Override
     protected void onPause() {
         super.onPause();
+        NearUserManager.getInstance().clear();
     }
 }

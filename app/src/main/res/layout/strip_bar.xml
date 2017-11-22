@@ -6,7 +6,9 @@
     android:layout_gravity="center|top"
     android:background="@drawable/strip_bar_background">
 
-    <com.franktech.mia.view.MiaTextView
+
+    <com.franktech.mia.ui.view.MiaTextView
+
         android:id="@+id/strip_bar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,7 +32,7 @@
             android:src="@drawable/ic_heart"
             android:background="?android:selectableItemBackground"/>
 
-        <com.franktech.mia.view.MiaTextView
+        <com.franktech.mia.ui.view.MiaTextView
             android:id="@+id/likes_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

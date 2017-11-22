@@ -1,8 +1,7 @@
-package com.franktech.mia.activity;
+package com.franktech.mia.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.facebook.AccessToken;
@@ -14,9 +13,10 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.franktech.mia.R;
-import com.franktech.mia.VolleySingleton;
 import com.franktech.mia.utilities.FacebookInfo;
+import com.franktech.mia.utilities.MiaLogger;
 import com.franktech.mia.utilities.SharedPrefSingleton;
+import com.franktech.mia.utilities.VolleySingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,15 +26,14 @@ import java.net.URLEncoder;
 
 public class MainActivity extends AbstractAppCompatActivity {
 
+    private static final Class TAG = MainActivity.class;
+
     private CallbackManager callback;
-    private SharedPrefSingleton prefUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        prefUtil = SharedPrefSingleton.getInstance(getApplicationContext());
 
         if (!isLoggedIn()) {
 
@@ -55,7 +54,7 @@ public class MainActivity extends AbstractAppCompatActivity {
                                     try {
                                         setUserData(object);
                                     } catch (JSONException e) {
-                                        e.printStackTrace();
+                                        MiaLogger.e(TAG, e.getMessage(), e);
                                     }
                                 }
                             });
@@ -70,12 +69,12 @@ public class MainActivity extends AbstractAppCompatActivity {
 
                 @Override
                 public void onCancel() {
-                    Log.e(getClass().getName(), "onCancel");
+                    MiaLogger.e(TAG, "onCancel");
                 }
 
                 @Override
                 public void onError(FacebookException error) {
-                    Log.e(getClass().getName(), error.getMessage(), error);
+                    MiaLogger.e(TAG, error.getMessage(), error);
                 }
             });
 
@@ -115,20 +114,21 @@ public class MainActivity extends AbstractAppCompatActivity {
             String url = getString(R.string.user_url) + query;
 
 
-            VolleySingleton.getInstance(this).request(url, new VolleySingleton.VolleyCallback() {
+            VolleySingleton.getInstance().request(this, url, new VolleySingleton.VolleyCallback() {
                 @Override
                 public void onSuccess(String response) {
-
+                    MiaLogger.d(TAG, response);
                 }
 
                 @Override
                 public void onFailed(VolleyError error) {
+                    MiaLogger.e(TAG, error.getMessage(), error);
 
                 }
             });
 
         } catch (UnsupportedEncodingException | JSONException e) {
-            e.printStackTrace();
+           MiaLogger.e(TAG, e.getMessage(), e);
         }
     }
 

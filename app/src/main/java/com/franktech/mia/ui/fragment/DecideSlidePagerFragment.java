@@ -1,25 +1,26 @@
-package com.franktech.mia.fragment;
+package com.franktech.mia.ui.fragment;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
 import com.franktech.mia.R;
-import com.franktech.mia.VolleySingleton;
 import com.franktech.mia.model.User;
 import com.franktech.mia.model.UsersStatus;
+import com.franktech.mia.ui.view.MiaTextView;
+import com.franktech.mia.utilities.MiaLogger;
+import com.franktech.mia.utilities.NearUserManager;
 import com.franktech.mia.utilities.SharedPrefSingleton;
-import com.franktech.mia.view.MiaTextView;
+import com.franktech.mia.utilities.VolleySingleton;
 
 import java.util.Set;
 
@@ -28,6 +29,8 @@ import java.util.Set;
  */
 
 public class DecideSlidePagerFragment extends Fragment {
+
+    private static final Class TAG = DecideSlidePagerFragment.class;
 
     private ImageView picture;
     private Button like;
@@ -45,16 +48,22 @@ public class DecideSlidePagerFragment extends Fragment {
                 R.layout.item_decide_layout, container, false);
         prefUtil = SharedPrefSingleton.getInstance(getContext());
         bindView(rootView);
-        user = (User)getArguments().getSerializable(User.USER_KEY);
+        user = NearUserManager.getInstance().getFakeUsers(getContext()).get(getArguments().getString(User.USER_KEY));
 
         setStatus();
         setListeners();
 
-        Bitmap profilePic = ((BitmapDrawable)user.getProfilePic()).getBitmap();
+        user.onBitmapReady(new User.IOnPicReady() {
+            @Override
+            public void load(Drawable profilePic) {
 
-        int nh = (int) ( profilePic.getHeight() * (512.0 / profilePic.getWidth()) );
-        Bitmap scaled = Bitmap.createScaledBitmap(profilePic, 512, nh, true);
-        picture.setImageBitmap(scaled);
+                Bitmap bitmap = ((BitmapDrawable)profilePic).getBitmap();
+
+                int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
+                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+                picture.setImageBitmap(scaled);
+            }
+        });
 
         return rootView;
     }
@@ -65,7 +74,7 @@ public class DecideSlidePagerFragment extends Fragment {
         like = view.findViewById(R.id.like);
         unlike = view.findViewById(R.id.unlike);
         status = view.findViewById(R.id.status);
-        decidePager = getActivity().findViewById(R.id.decide_pager);
+        decidePager = getActivity().findViewById(R.id.slide_pager);
     }
 
     private void setStatus() {
@@ -113,7 +122,7 @@ public class DecideSlidePagerFragment extends Fragment {
                     getActivity().finish();
                 }
 
-//                VolleySingleton.getInstance(DecideActivity.this).request("block", new VolleySingleton.VolleyCallback() {
+//                VolleySingleton.getInstance(getActivity()).request("block", new VolleySingleton.VolleyCallback() {
 //                    @Override
 //                    public void onSuccess(String response) {
 //
@@ -137,22 +146,22 @@ public class DecideSlidePagerFragment extends Fragment {
                     prefUtil.putStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, set);
                 }
 
-                String url = String.format(getString(R.string.base_url) + getString(R.string.push_url),
+                String url = String.format(getString(R.string.push_url),
                         prefUtil.getString(SharedPrefSingleton.FCM_TOKEN_KEY, ""),
                         "Someone likes you",
                         "click to see who likes you",
                         user.getId());
 
-                VolleySingleton.getInstance(getContext()).request(url,
+                VolleySingleton.getInstance().request(getContext(), url,
                         new VolleySingleton.VolleyCallback() {
                             @Override
                             public void onSuccess(String response) {
-
+                                MiaLogger.d(TAG, response);
                             }
 
                             @Override
                             public void onFailed(VolleyError error) {
-
+                                MiaLogger.e(TAG, error.getMessage(), error);
                             }
                         });
 

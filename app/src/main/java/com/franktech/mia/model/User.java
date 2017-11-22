@@ -1,49 +1,59 @@
 package com.franktech.mia.model;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
+import android.os.AsyncTask;
 
+import com.franktech.mia.utilities.FacebookInfo;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.Marker;
 
-import java.io.ByteArrayOutputStream;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by franktech on 18/11/17.
  */
 
-public class User implements Serializable {
+public class User {
 
     public static final String USER_KEY = "user";
     private String name;
     private String id;
     private Date birthday;
-    private double lat;
-    private double lng;
+    private LatLng latLng;
     private boolean isMale;
-    private byte[] profilePic;
+    private Drawable profilePic;
     private transient Marker marker;
+    private IOnPicReady onBitmapReady;
 
-    public User(String name, String faceId, Date birthday, LatLng latLng, boolean isMale) {
-        this(name, faceId, birthday, latLng, isMale, null, null);
+    public User(Context context, String name, String faceId, Date birthday, LatLng latLng, boolean isMale) {
+        this(context, name, faceId, birthday, latLng, isMale, null);
     }
 
-    public User(String name, String faceId, Date birthday, LatLng latLng, boolean isMale, Drawable profilePic,
-                Marker marker) {
+    public User(final Context context, String name, final String faceId, Date birthday, LatLng latLng, boolean isMale, Marker marker) {
         this.name = name;
         this.id = faceId;
         this.birthday = birthday;
-        this.lat = latLng.latitude;
-        this.lng = latLng.longitude;
+        this.latLng = latLng;
         this.isMale = isMale;
-        this.profilePic = drawableToByreArray(profilePic);
         this.marker = marker;
+
+        new MiaAsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                profilePic = FacebookInfo.getFacebookProfilePic(context, faceId);
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                if(onBitmapReady != null){
+                    onBitmapReady.load(profilePic);
+                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public String getId() {
@@ -55,12 +65,11 @@ public class User implements Serializable {
     }
 
     public LatLng getLatLng() {
-        return new LatLng(lat, lng);
+        return latLng;
     }
 
     public void setLatLng(LatLng latLng) {
-        this.lat = latLng.latitude;
-        this.lng = latLng.longitude;
+        this.latLng = latLng;
     }
 
     public String getName() {
@@ -87,31 +96,18 @@ public class User implements Serializable {
         isMale = male;
     }
 
-    @Nullable
-    public Drawable getProfilePic() {
-        return byteArrayToDrawable();
+    public void onBitmapReady(IOnPicReady ready) {
+        if(profilePic != null) {
+            ready.load(profilePic);
+        }else{
+            onBitmapReady = ready;
+        }
     }
 
     public void setProfilePic(Drawable profilePic) {
-        this.profilePic = drawableToByreArray(profilePic);
+        this.profilePic = profilePic;
     }
 
-    private byte[] drawableToByreArray(Drawable drawable){
-
-        if (drawable == null) return null;
-
-        Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] b = baos.toByteArray();
-
-        return b;
-    }
-
-    private Drawable byteArrayToDrawable() {
-        return new BitmapDrawable(BitmapFactory.decodeByteArray(profilePic, 0, profilePic.length));
-    }
 
     public void removeMarker() {
         if(marker!= null){
@@ -121,5 +117,9 @@ public class User implements Serializable {
 
     public void setMarker(Marker marker) {
         this.marker = marker;
+    }
+
+    public interface IOnPicReady{
+        void load(Drawable profilePic);
     }
 }

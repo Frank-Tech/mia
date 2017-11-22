@@ -1,29 +1,29 @@
-package com.franktech.mia.view;
+package com.franktech.mia.ui.view;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
 /**
- * Created by tzlilswimmer on 17/11/2017.
+ * Created by tzlilswimmer on 18/11/2017.
  */
 
-public class MiaTextView extends android.support.v7.widget.AppCompatTextView{
-    public MiaTextView(Context context) {
+public class MiaButton extends android.support.v7.widget.AppCompatButton{
+    public MiaButton(Context context) {
         super(context);
         initFont(context);
     }
 
-    public MiaTextView(Context context, @Nullable AttributeSet attrs) {
+    public MiaButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         initFont(context);
     }
 
-    public MiaTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs);
+    public MiaButton(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
         initFont(context);
     }
+
 
     private void initFont(Context context) {
         if (this.isInEditMode()) return ;
@@ -32,6 +32,4 @@ public class MiaTextView extends android.support.v7.widget.AppCompatTextView{
                 Typeface.createFromAsset(context.getAssets(), "IndieFlower.ttf")
         );
     }
-
-
 }

@@ -1,9 +1,7 @@
-package com.franktech.mia.fragment;
+package com.franktech.mia.ui.fragment;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -15,13 +13,12 @@ import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
 import com.franktech.mia.R;
-import com.franktech.mia.VolleySingleton;
 import com.franktech.mia.model.User;
-import com.franktech.mia.utilities.FacebookInfo;
-import com.franktech.mia.utilities.FacebookProfilePicture;
-import com.franktech.mia.utilities.FakeDataManager;
+
+import com.franktech.mia.ui.view.MiaTextView;
+import com.franktech.mia.utilities.MiaLogger;
 import com.franktech.mia.utilities.SharedPrefSingleton;
-import com.franktech.mia.view.MiaTextView;
+import com.franktech.mia.utilities.VolleySingleton;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -33,6 +30,7 @@ import java.util.Set;
 
 public class MatchSlidePageFragment extends Fragment {
 
+    private static final Class TAG = MatchSlidePageFragment.class;
     private ImageView picture;
     private MiaTextView details;
     private User user;
@@ -50,9 +48,16 @@ public class MatchSlidePageFragment extends Fragment {
         prefUtil = SharedPrefSingleton.getInstance(getContext());
         bindView(rootView);
         user = (User)getArguments().getSerializable(User.USER_KEY);
-        setUserPicture();
+
         setUserDetails();
         setButtonsListeners();
+
+        user.onBitmapReady(new User.IOnPicReady() {
+            @Override
+            public void load(Drawable profilePic) {
+                picture.setImageDrawable(profilePic);
+            }
+        });
 
         return rootView;
     }
@@ -62,26 +67,8 @@ public class MatchSlidePageFragment extends Fragment {
         details = rootView.findViewById(R.id.match_details);
         talk = rootView.findViewById(R.id.talk);
         dismiss = rootView.findViewById(R.id.dismiss);
-        viewPager = getActivity().findViewById(R.id.match_pager);
+        viewPager = getActivity().findViewById(R.id.slide_pager);
         dontWasteTime = rootView.findViewById(R.id.dont_waste_time);
-
-    }
-
-    private void setUserPicture() {
-        new AsyncTask<Void, Void, Drawable>() {
-            @Override
-            protected Drawable doInBackground(Void... voids) {
-                Drawable pic = FacebookProfilePicture.getFacebookProfilePic(getContext(),
-                        SharedPrefSingleton.getInstance(getContext())
-                                .getString(user.getId(), ""));
-                return pic;
-            }
-
-            @Override
-            protected void onPostExecute(Drawable drawable) {
-                picture.setImageDrawable(drawable);
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
     }
 
@@ -120,22 +107,22 @@ public class MatchSlidePageFragment extends Fragment {
 
                 alertDialog.show();
 
-                String url = String.format(getString(R.string.base_url) + getString(R.string.push_url),
+                String url = String.format(getString(R.string.push_url),
                         prefUtil.getString(SharedPrefSingleton.FCM_TOKEN_KEY, ""),
                         "You got a match",
                         "click to see who liked you too",
                         user.getId());
 
-                VolleySingleton.getInstance(getContext()).request(url,
+                VolleySingleton.getInstance().request(getContext(), url,
                         new VolleySingleton.VolleyCallback() {
                             @Override
                             public void onSuccess(String response) {
-
+                                MiaLogger.d(TAG, response);
                             }
 
                             @Override
                             public void onFailed(VolleyError error) {
-
+                                MiaLogger.e(TAG, error.getMessage(), error);
                             }
                         });
 

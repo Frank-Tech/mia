@@ -20,7 +20,6 @@ public class SharedPrefSingleton {
     public static final String LIKED_ME_USERS_KEY = "likes_me_users";
     public static final String MATCHED_USERS_KEY = "matched_users";
     public static final String FCM_TOKEN_KEY = "fcm_token";
-    public static final String COUNT_LIKED_ME = "count_liked_me";
 
     public static SharedPrefSingleton instance;
 
@@ -71,5 +70,16 @@ public class SharedPrefSingleton {
 
     public Set<String> getStringSet(String key, Set<String> def) {
         return preferences.getStringSet(key, def);
+    }
+
+    // TODO: move to mongodb
+    public void putBoolean(String key, boolean value){
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean(key, value);
+        editor.apply();
+    }
+
+    public boolean getBoolean(String key, boolean def) {
+        return preferences.getBoolean(key, def);
     }
 }
