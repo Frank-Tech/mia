@@ -139,12 +139,20 @@ public class DecideSlidePagerFragment extends Fragment {
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Set<String> set =  prefUtil.getStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, null);
+                Set<String> setILiked =  prefUtil.getStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, null);
+                Set<String> setDislike =  prefUtil.getStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, null);
 
-                if(set!= null && !set.contains(user.getId())){
-                    set.add(user.getId());
-                    prefUtil.putStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, set);
+                if(setILiked!= null && !setILiked.contains(user.getId())){
+                    setILiked.add(user.getId());
+                    prefUtil.putStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, setILiked);
                 }
+
+                if(setDislike != null && setDislike.contains(user.getId())){
+                    setDislike.remove(user.getId());
+                    prefUtil.putStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, setDislike);
+                }
+
+
 
                 String url = String.format(getString(R.string.push_url),
                         prefUtil.getString(SharedPrefSingleton.FCM_TOKEN_KEY, ""),
@@ -183,12 +191,20 @@ public class DecideSlidePagerFragment extends Fragment {
         unlike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Set<String> set =  prefUtil.getStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, null);
+                Set<String> setDislike =  prefUtil.getStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, null);
+                Set<String> setILiked =  prefUtil.getStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, null);
 
-                if(!set.contains(user.getId())){
-                    set.add(user.getId());
-                    prefUtil.putStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, set);
+
+                if(setDislike != null && !setDislike.contains(user.getId())){
+                    setDislike.add(user.getId());
+                    prefUtil.putStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, setDislike);
                 }
+
+                if(setILiked != null && setILiked.contains(user.getId())){
+                    setILiked.remove(user.getId());
+                    prefUtil.putStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, setILiked);
+                }
+
 
                 unlike.setEnabled(false);
                 like.setEnabled(true);
