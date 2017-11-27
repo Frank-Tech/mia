@@ -23,7 +23,7 @@ public class User {
     private LatLng latLng;
     private boolean isMale;
     private Drawable profilePic;
-    private transient Marker marker;
+    private Marker marker;
     private IOnPicReady onBitmapReady;
 
     public User(Context context, String name, String faceId, Date birthday, LatLng latLng, boolean isMale) {
@@ -42,7 +42,7 @@ public class User {
 
             @Override
             protected Void doInBackground(Void... voids) {
-                profilePic = FacebookInfo.getFacebookProfilePic(context, faceId);
+                profilePic = FacebookInfo.getProfilePic(context, faceId);
                 return null;
             }
 
@@ -117,6 +117,10 @@ public class User {
 
     public void setMarker(Marker marker) {
         this.marker = marker;
+    }
+
+    public Marker getMarker() {
+        return marker;
     }
 
     public interface IOnPicReady{

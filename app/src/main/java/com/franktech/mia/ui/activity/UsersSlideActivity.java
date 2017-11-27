@@ -31,64 +31,62 @@ public class UsersSlideActivity extends AbstractAppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slide);
 
-        if (getIntent() != null) {
+        type = SlideType.valueOf(getIntent().getStringExtra(SlideType.TYPE_KEY));
+        String userId = getIntent().getStringExtra(User.USER_KEY);
 
-            type = SlideType.valueOf(getIntent().getStringExtra(SlideType.TYPE_KEY));
-            String userId = getIntent().getStringExtra(User.USER_KEY);
+        User user = NearUserManager.getInstance().getFakeUsers(this).get(userId);
+        UsersStatus status = UsersStatus.getStatus(getApplicationContext(), user.getId());
 
-            User user = NearUserManager.getInstance().getFakeUsers(this).get(userId);
-            UsersStatus status = UsersStatus.getStatus(getApplicationContext(), user.getId());
+        switch (type) {
+            case DECIDE: {
 
-            switch (type) {
-                case DECIDE: {
+                if (!status.equals(UsersStatus.LIKED_ME)) break;
 
-                    if(!status.equals(UsersStatus.LIKED_ME)) break;
+                Set<String> set = prefUtil.getStringSet(SharedPrefSingleton.LIKED_ME_USERS_KEY, null);
 
-                    Set<String> set = prefUtil.getStringSet(SharedPrefSingleton.LIKED_ME_USERS_KEY, null);
-
-                    if (!set.contains(user.getId())) {
-                        set.add(user.getId());
-                        prefUtil.putStringSet(SharedPrefSingleton.LIKED_ME_USERS_KEY, set);
-                    }
-
-                    break;
-
-                }case MATCH: {
-
-                    if(!status.equals(UsersStatus.I_LIKED)) break;
-
-                    Set<String> set = prefUtil.getStringSet(SharedPrefSingleton.MATCHED_USERS_KEY, null);
-
-                    if (!set.contains(user.getId())) {
-                        set.add(user.getId());
-                        prefUtil.putStringSet(SharedPrefSingleton.MATCHED_USERS_KEY, set);
-                    }
-
-                    break;
-
-                }
-            }
-
-            ViewPager decidePager = findViewById(R.id.slide_pager);
-
-            decidePager.setOffscreenPageLimit(5);
-
-            PagerAdapter pagerAdapter =
-                    new ScreenSlidePagerAdapter(this);
-
-            decidePager.setAdapter(pagerAdapter);
-            decidePager.setOffscreenPageLimit(4);
-
-            Object[] users = NearUserManager.getInstance().getFakeUsers(getApplicationContext()).keySet().toArray();
-            int i = 0;
-
-            while (i < users.length){
-                if(users[i].equals(userId)){
-                    decidePager.setCurrentItem(i);
+                if (!set.contains(user.getId())) {
+                    set.add(user.getId());
+                    prefUtil.putStringSet(SharedPrefSingleton.LIKED_ME_USERS_KEY, set);
                 }
 
-                i++;
+                break;
+
             }
+            case MATCH: {
+
+                if (!status.equals(UsersStatus.I_LIKED)) break;
+
+                Set<String> set = prefUtil.getStringSet(SharedPrefSingleton.MATCHED_USERS_KEY, null);
+
+                if (!set.contains(user.getId())) {
+                    set.add(user.getId());
+                    prefUtil.putStringSet(SharedPrefSingleton.MATCHED_USERS_KEY, set);
+                }
+
+                break;
+
+            }
+        }
+
+        ViewPager decidePager = findViewById(R.id.slide_pager);
+
+        decidePager.setOffscreenPageLimit(5);
+
+        PagerAdapter pagerAdapter =
+                new ScreenSlidePagerAdapter(this);
+
+        decidePager.setAdapter(pagerAdapter);
+        decidePager.setOffscreenPageLimit(4);
+
+        Object[] users = NearUserManager.getInstance().getFakeUsers(getApplicationContext()).keySet().toArray();
+        int i = 0;
+
+        while (i < users.length) {
+            if (users[i].equals(userId)) {
+                decidePager.setCurrentItem(i);
+            }
+
+            i++;
         }
     }
 

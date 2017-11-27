@@ -17,6 +17,7 @@ import com.franktech.mia.model.User;
 
 import com.franktech.mia.ui.view.MiaTextView;
 import com.franktech.mia.utilities.MiaLogger;
+import com.franktech.mia.utilities.NearUserManager;
 import com.franktech.mia.utilities.SharedPrefSingleton;
 import com.franktech.mia.utilities.VolleySingleton;
 
@@ -47,7 +48,7 @@ public class MatchSlidePageFragment extends Fragment {
                 R.layout.item_match_layout, container, false);
         prefUtil = SharedPrefSingleton.getInstance(getContext());
         bindView(rootView);
-        user = (User)getArguments().getSerializable(User.USER_KEY);
+        user = NearUserManager.getInstance().getFakeUsers(getContext()).get(getArguments().getString(User.USER_KEY));
 
         setUserDetails();
         setButtonsListeners();

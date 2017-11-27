@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
+import android.util.ArraySet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,6 +30,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by franktech on 18/11/17.
@@ -62,8 +64,6 @@ public class NearUserManager {
 
     private void initMap(final Context context, GoogleMap map) {
 
-        if(mMap != null) return;
-
         mMap = map;
 
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -82,7 +82,8 @@ public class NearUserManager {
                     if(marker.getPosition().longitude == user.getLatLng().longitude &&
                             marker.getPosition().latitude == user.getLatLng().latitude){
 
-                        context.startActivity(UsersSlideActivity.getActivityIntent(context, SlideType.DECIDE, user.getId()));
+                        SlideType type = UsersStatus.getStatus(context, user.getId()) == UsersStatus.MATCHED ? SlideType.MATCH : SlideType.DECIDE;
+                        context.startActivity(UsersSlideActivity.getActivityIntent(context, type, user.getId()));
                     }
                 }
                 return false;
@@ -90,10 +91,10 @@ public class NearUserManager {
         });
     }
 
-    public void OnNearUsersUpdate(final Context context, GoogleMap map, final Location location) {
+    public void OnNearUsersUpdate(final Context context, GoogleMap map, boolean reload, final Location location) {
 
         initMap(context, map);
-        loadUsersToMap(context, getFakeUsers(context));
+        loadUsersToMap(context, reload, getFakeUsers(context));
 
         // TODO: 18/11/2017 when implementing server - filter by gender
         final String url = String.format(
@@ -146,7 +147,7 @@ public class NearUserManager {
         });
     }
 
-    private void loadUsersToMap(final Context context, final Map<String, User> newUsers) {
+    private void loadUsersToMap(final Context context, boolean reload, final Map<String, User> newUsers) {
 
         Map<String, User> oldUsers = new HashMap<>(users);
 
@@ -154,7 +155,7 @@ public class NearUserManager {
             if (!newUsers.containsKey(user.getId())) {
                 user.removeMarker();
                 users.remove(user.getId());
-            }else if(newUsers.containsKey(user.getId())){
+            }else if(newUsers.containsKey(user.getId()) && !reload){
                 newUsers.remove(user.getId());
             }
         }
@@ -271,6 +272,9 @@ public class NearUserManager {
 
             latLng = new LatLng(lat + 0.0005, lng + 0.0005);
             fakeUsers.put("1397714808", new User(context,"Ella Bar-Yaacov", "1397714808", new Date(1311921743), latLng, false));
+            Set<String> set = new ArraySet<>();
+            set.add("100004328658378");
+            SharedPrefSingleton.getInstance(context).putStringSet(SharedPrefSingleton.MATCHED_USERS_KEY, set);
         }
 
         Map<String, User> temp = new HashMap<>(fakeUsers);
@@ -288,10 +292,4 @@ public class NearUserManager {
     public Map<String,User> getUsers() {
         return users;
     }
-
-    public void clear() {
-        users.clear();
-        fakeUsers.clear();
-    }
-
 }

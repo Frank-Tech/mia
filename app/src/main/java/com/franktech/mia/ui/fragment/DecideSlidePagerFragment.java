@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.ArraySet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,7 +105,7 @@ public class DecideSlidePagerFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Set<String> set =  prefUtil.getStringSet(SharedPrefSingleton.BLOCKED_USERS_KEY, null);
+                Set<String> set =  prefUtil.getStringSet(SharedPrefSingleton.BLOCKED_USERS_KEY, new ArraySet<String>());
 
                 if(!set.contains(user.getId())){
                     set.add(user.getId());
@@ -113,10 +114,10 @@ public class DecideSlidePagerFragment extends Fragment {
 
                 if(decidePager.getAdapter().getCount() > 0 &&
                         decidePager.getAdapter().getCount() < decidePager.getAdapter().getItemPosition(user)) {
-                    decidePager.setCurrentItem(decidePager.getAdapter().getItemPosition(user) - 1);
+                    decidePager.setCurrentItem(decidePager.getAdapter().getItemPosition(user) + 1);
                     decidePager.getAdapter().notifyDataSetChanged();
                 }else if(decidePager.getAdapter().getCount() > 0){
-                    decidePager.setCurrentItem(decidePager.getAdapter().getItemPosition(user) + 1);
+                    decidePager.setCurrentItem(decidePager.getAdapter().getItemPosition(user) - 1);
                     decidePager.getAdapter().notifyDataSetChanged();
                 }else{
                     getActivity().finish();
@@ -139,9 +140,9 @@ public class DecideSlidePagerFragment extends Fragment {
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Set<String> set =  prefUtil.getStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, null);
+                Set<String> set =  prefUtil.getStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, new ArraySet<String>());
 
-                if(set!= null && !set.contains(user.getId())){
+                if(!set.contains(user.getId())){
                     set.add(user.getId());
                     prefUtil.putStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, set);
                 }
@@ -183,7 +184,7 @@ public class DecideSlidePagerFragment extends Fragment {
         unlike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Set<String> set =  prefUtil.getStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, null);
+                Set<String> set =  prefUtil.getStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, new ArraySet<String>());
 
                 if(!set.contains(user.getId())){
                     set.add(user.getId());

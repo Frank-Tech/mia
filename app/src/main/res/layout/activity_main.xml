@@ -3,22 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
-    android:background="@drawable/regular_background">
-
-    <ImageButton
-        android:id="@+id/icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:background="?android:selectableItemBackground"
-        android:src="@android:drawable/ic_lock_power_off"
-        android:layout_alignParentEnd="true"/>
+    android:background="@drawable/regular_background"
+    android:gravity="center">
 
     <com.franktech.mia.ui.view.MiaTextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_below="@+id/icon"
+        android:layout_marginBottom="25dp"
         android:textSize="45sp"
         android:lineSpacingExtra="8dp"
         android:textColor="@android:color/white"
@@ -31,7 +24,7 @@
         android:layout_height="120dp"
         android:layout_below="@+id/title"
         android:layout_centerInParent="true"
-        android:src="@android:drawable/ic_media_ff" />
+        android:src="@drawable/ic_pin" />
 
     <com.franktech.mia.ui.view.MiaTextView
         android:id="@+id/see_in_real_life"
@@ -40,6 +33,7 @@
         android:layout_centerInParent="true"
         android:layout_below="@+id/heart_on_map"
         android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
         android:textSize="40sp"
         android:lineSpacingExtra="8dp"
         android:textColor="@android:color/white"

@@ -19,18 +19,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends AbstractAppCompatActivity implements OnMapReadyCallback {
 
-    public static final float MIN_DISTANCE = 0;
-    public static final long MIN_TIME = 5;
+    public static final float MIN_DISTANCE = 5;
+    public static final long MIN_TIME = 0;
     private Marker myMarker;
+    private boolean reload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        reload = true;
+        ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync(this);
     }
 
     /**
@@ -51,7 +50,7 @@ public class MapsActivity extends AbstractAppCompatActivity implements OnMapRead
 
             @Override
             public void run() {
-                
+
                 if (locationManager != null) {
 
                     Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -71,7 +70,8 @@ public class MapsActivity extends AbstractAppCompatActivity implements OnMapRead
                                 public void onLocationChanged(Location location) {
                                     LatLng ownerLatlng = new LatLng(location.getLatitude(), location.getLongitude());
                                     setMyMarker(ownerLatlng, googleMap);
-                                    NearUserManager.getInstance().OnNearUsersUpdate(MapsActivity.this, googleMap, location);
+                                    NearUserManager.getInstance().OnNearUsersUpdate(MapsActivity.this, googleMap, reload, location);
+                                    reload = false;
                                 }
 
                                 @Override
@@ -96,7 +96,7 @@ public class MapsActivity extends AbstractAppCompatActivity implements OnMapRead
 
     private void setMyMarker(LatLng ownerLatlng, GoogleMap googleMap) {
 
-        if(myMarker != null) myMarker.remove();
+        if (myMarker != null) myMarker.remove();
 
         myMarker = googleMap.addMarker(new MarkerOptions().position(ownerLatlng));
 
@@ -107,6 +107,6 @@ public class MapsActivity extends AbstractAppCompatActivity implements OnMapRead
     @Override
     protected void onPause() {
         super.onPause();
-        NearUserManager.getInstance().clear();
+        reload = true;
     }
 }

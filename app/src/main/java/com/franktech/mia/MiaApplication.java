@@ -17,14 +17,12 @@ public class MiaApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
 
-        String uuid = SharedPrefSingleton.getInstance(this).getString(SharedPrefSingleton.UUID_KEY, null);
-
-        if(uuid == null){
-            uuid = UUID.randomUUID().toString();
-            SharedPrefSingleton.getInstance(this).putString(SharedPrefSingleton.UUID_KEY, uuid);
+        if(SharedPrefSingleton.getInstance(this).getString(SharedPrefSingleton.UUID_KEY, null) == null){
+            SharedPrefSingleton.getInstance(this).putString(SharedPrefSingleton.UUID_KEY, UUID.randomUUID().toString());
         }
     }
 }

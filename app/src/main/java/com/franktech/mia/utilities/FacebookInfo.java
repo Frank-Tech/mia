@@ -38,7 +38,7 @@ public class FacebookInfo {
         return Arrays.asList(permissions);
     }
 
-    public static Drawable getFacebookProfilePic(Context context, String faceId) {
+    public static Drawable getProfilePic(Context context, String faceId) {
         Drawable drawable = null;
 
         try {
