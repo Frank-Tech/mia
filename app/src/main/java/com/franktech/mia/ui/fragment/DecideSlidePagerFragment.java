@@ -82,7 +82,7 @@ public class DecideSlidePagerFragment extends Fragment {
         switch (UsersStatus.getStatus(getContext(), user.getId())) {
             case I_LIKED: {
                 status.setText(R.string.i_liked);
-                like.setVisibility(View.INVISIBLE);
+                like.setEnabled(false);
                 break;
             }
             case LIKED_ME: {
@@ -140,12 +140,20 @@ public class DecideSlidePagerFragment extends Fragment {
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Set<String> set =  prefUtil.getStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, new ArraySet<String>());
+                Set<String> setILiked =  prefUtil.getStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, null);
+                Set<String> setDislike =  prefUtil.getStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, new ArraySet<String>());
 
-                if(!set.contains(user.getId())){
-                    set.add(user.getId());
-                    prefUtil.putStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, set);
+                if(setILiked!= null && !setILiked.contains(user.getId())){
+                    setILiked.add(user.getId());
+                    prefUtil.putStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, setILiked);
                 }
+
+                if(setDislike != null && setDislike.contains(user.getId())){
+                    setDislike.remove(user.getId());
+                    prefUtil.putStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, setDislike);
+                }
+
+
 
                 String url = String.format(getString(R.string.push_url),
                         prefUtil.getString(SharedPrefSingleton.FCM_TOKEN_KEY, ""),
@@ -166,8 +174,8 @@ public class DecideSlidePagerFragment extends Fragment {
                             }
                         });
 
-                like.setVisibility(View.INVISIBLE);
-                unlike.setVisibility(View.VISIBLE);
+                like.setEnabled(false);
+                unlike.setEnabled(true);
 
                 if(decidePager.getAdapter().getCount() > decidePager.getAdapter().getItemPosition(user)) {
                     decidePager.setCurrentItem(decidePager.getAdapter().getItemPosition(user) + 1);
@@ -184,15 +192,23 @@ public class DecideSlidePagerFragment extends Fragment {
         unlike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Set<String> set =  prefUtil.getStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, new ArraySet<String>());
+                Set<String> setDislike =  prefUtil.getStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, null);
+                Set<String> setILiked =  prefUtil.getStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, new ArraySet<String>());
 
-                if(!set.contains(user.getId())){
-                    set.add(user.getId());
-                    prefUtil.putStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, set);
+
+                if(setDislike != null && !setDislike.contains(user.getId())){
+                    setDislike.add(user.getId());
+                    prefUtil.putStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, setDislike);
                 }
 
-                unlike.setVisibility(View.INVISIBLE);
-                unlike.setVisibility(View.VISIBLE);
+                if(setILiked != null && setILiked.contains(user.getId())){
+                    setILiked.remove(user.getId());
+                    prefUtil.putStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, setILiked);
+                }
+
+
+                unlike.setEnabled(false);
+                like.setEnabled(true);
 
                 if(decidePager.getAdapter().getCount() > 0 &&
                         decidePager.getAdapter().getCount() < decidePager.getAdapter().getItemPosition(user)) {

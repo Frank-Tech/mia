@@ -104,8 +104,10 @@ public class MatchSlidePageFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+
                 alertDialog.setTitle("Meet and talk!");
 
+                alertDialog.create();
                 alertDialog.show();
 
                 String url = String.format(getString(R.string.push_url),
@@ -137,11 +139,17 @@ public class MatchSlidePageFragment extends Fragment {
             public void onClick(View view) {
                 viewPager.setCurrentItem(viewPager.getAdapter().getItemPosition(user) + 1);
 
-                Set<String> set =  prefUtil.getStringSet(SharedPrefSingleton.MATCHED_USERS_KEY, null);
+                Set<String> setMatch =  prefUtil.getStringSet(SharedPrefSingleton.LIKED_ME_USERS_KEY, null);
+                Set<String> setLikedMe =  prefUtil.getStringSet(SharedPrefSingleton.LIKED_ME_USERS_KEY, null);
 
-                if(!set.contains(user.getId())){
-                    set.add(user.getId());
-                    prefUtil.putStringSet(SharedPrefSingleton.MATCHED_USERS_KEY, set);
+                if(setMatch.contains(user.getId())){
+                    setMatch.remove(user.getId());
+                    prefUtil.putStringSet(SharedPrefSingleton.MATCHED_USERS_KEY, setMatch);
+                }
+
+                if(!setMatch.contains(user.getId())){
+                    setLikedMe.add(user.getId());
+                    prefUtil.putStringSet(SharedPrefSingleton.LIKED_ME_USERS_KEY, setLikedMe);
                 }
 
                 viewPager.getAdapter().notifyDataSetChanged();

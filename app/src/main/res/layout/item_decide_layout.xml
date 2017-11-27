@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layoutDirection="ltr"
     android:background="@drawable/regular_background">
 
@@ -40,14 +41,24 @@
 
     </LinearLayout>
 
-
-    <ImageView
-        android:id="@+id/picture"
+    <android.support.v7.widget.CardView
         android:layout_width="280dp"
         android:layout_height="350dp"
         android:layout_below="@+id/block"
         android:layout_centerHorizontal="true"
-        android:adjustViewBounds="true"/>
+        app:cardCornerRadius="8dp"
+        android:layout_margin="5dp"
+        android:elevation="10dp">
+
+        <ImageView
+            android:id="@+id/picture"
+            android:layout_width="280dp"
+            android:layout_height="350dp"
+            android:layout_below="@+id/block"
+            android:layout_centerHorizontal="true"
+            android:adjustViewBounds="true"/>
+    </android.support.v7.widget.CardView>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -58,9 +69,9 @@
 
         <com.franktech.mia.ui.view.MiaButton
             android:id="@+id/unlike"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/ic_cancel_music"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/ic_dislike"
             android:layout_margin="20dp"/>
 
         <com.franktech.mia.ui.view.MiaButton

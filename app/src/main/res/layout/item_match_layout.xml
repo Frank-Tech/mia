@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
     android:background="@drawable/regular_background">
@@ -10,15 +12,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="55dp"
-        android:layout_marginStart="55dp">
+        android:layout_marginStart="55dp"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="15dp">
 
         <LinearLayout
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:gravity="center">
 
             <ImageView
@@ -37,23 +43,35 @@
 
         </LinearLayout>
 
-
-        <ImageView
-            android:id="@+id/match_picture"
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_picture"
             android:layout_width="145dp"
             android:layout_height="165dp"
-            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/title"
             android:background="@android:color/white"
-            android:scaleType="centerCrop"/>
+            android:layout_centerInParent="true"
+            app:cardCornerRadius="8dp"
+            android:layout_margin="5dp"
+            android:elevation="10dp">
+
+            <ImageView
+                android:id="@+id/match_picture"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/block"
+                android:layout_centerHorizontal="true"
+                android:adjustViewBounds="true"/>
+        </android.support.v7.widget.CardView>
+
 
         <com.franktech.mia.ui.view.MiaTextView
             android:id="@+id/match_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
+            android:textSize="21sp"
             android:textColor="@android:color/white"
-            android:layout_below="@id/match_picture"
-            android:layout_alignStart="@+id/match_picture"
+            android:layout_below="@id/card_picture"
+            android:layout_centerInParent="true"
             android:text="Tali, 25\nTel Aviv"/>
 
     </RelativeLayout>
@@ -61,22 +79,23 @@
     <RelativeLayout
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp">
+        android:layout_below="@+id/got_match_container"
+        android:layout_centerInParent="true">
 
         <com.franktech.mia.ui.view.MiaTextView
             android:id="@+id/dont_waste_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="22sp"
+            android:layout_marginBottom="8dp"
+            android:textSize="18sp"
             android:textColor="@android:color/white"
             android:lineSpacingExtra="8dp"
             android:textAlignment="center"
+            android:layout_centerHorizontal="true"
             android:text="@string/dont_waste_time_she"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_below="@+id/dont_waste_time"
@@ -86,11 +105,12 @@
                 android:id="@+id/talk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 style="@style/Widget.AppCompat.Button.Colored"
+                android:background="@drawable/button_selector"
                 android:text="@string/i_wanna_talk"
                 android:textAllCaps="false"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
 
             <com.franktech.mia.ui.view.MiaButton
                 android:id="@+id/dismiss"
@@ -98,9 +118,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 style="@style/Widget.AppCompat.Button.Colored"
+                android:background="@drawable/button_selector"
                 android:text="@string/i_dont_want_talk"
                 android:textAllCaps="false"
-                android:textSize="25sp" />
+                android:textSize="20sp" />
         </LinearLayout>
 
     </RelativeLayout>

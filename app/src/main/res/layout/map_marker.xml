@@ -1,23 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/custom_marker_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layoutDirection="ltr">
 
-    <ImageView
+    <android.support.v7.widget.CardView
         android:layout_width="@dimen/marker_width_height"
         android:layout_height="@dimen/marker_width_height"
         android:background="@drawable/marker_mask"
-        android:layout_gravity="center"/>
+        app:cardCornerRadius="8dp"
+        android:layout_margin="5dp"
+        android:elevation="10dp">
 
-    <ImageView
-        android:id="@+id/profile_image"
-        android:layout_width="@dimen/profile_image_width_height"
-        android:layout_height="@dimen/profile_image_width_height"
-        android:src="@drawable/barby"
-        android:layout_gravity="center"
-        android:contentDescription="@null"/>
+        <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@drawable/marker_mask"-->
+            <!--android:layout_gravity="center"/>-->
+
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/barby"
+            android:layout_gravity="center"
+            android:contentDescription="@null"/>
+
+    </android.support.v7.widget.CardView>
 
     <ImageView
         android:id="@+id/status_icon"
@@ -25,4 +36,5 @@
         android:layout_height="@dimen/status_icon_width_height"
         android:layout_gravity="top|start"
         android:contentDescription="@null"/>
+
 </FrameLayout>
