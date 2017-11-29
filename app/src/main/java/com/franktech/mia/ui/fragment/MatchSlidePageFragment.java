@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.ArraySet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,8 +140,8 @@ public class MatchSlidePageFragment extends Fragment {
             public void onClick(View view) {
                 viewPager.setCurrentItem(viewPager.getAdapter().getItemPosition(user) + 1);
 
-                Set<String> setMatch =  prefUtil.getStringSet(SharedPrefSingleton.LIKED_ME_USERS_KEY, null);
-                Set<String> setLikedMe =  prefUtil.getStringSet(SharedPrefSingleton.LIKED_ME_USERS_KEY, null);
+                Set<String> setMatch =  prefUtil.getStringSet(SharedPrefSingleton.LIKED_ME_USERS_KEY, new ArraySet<String>());
+                Set<String> setLikedMe =  prefUtil.getStringSet(SharedPrefSingleton.LIKED_ME_USERS_KEY, new ArraySet<String>());
 
                 if(setMatch.contains(user.getId())){
                     setMatch.remove(user.getId());

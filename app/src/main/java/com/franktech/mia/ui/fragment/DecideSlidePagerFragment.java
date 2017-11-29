@@ -140,15 +140,15 @@ public class DecideSlidePagerFragment extends Fragment {
         like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Set<String> setILiked =  prefUtil.getStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, null);
+                Set<String> setILiked =  prefUtil.getStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, new ArraySet<String>());
                 Set<String> setDislike =  prefUtil.getStringSet(SharedPrefSingleton.I_DISLIKED_USERS_KEY, new ArraySet<String>());
 
-                if(setILiked!= null && !setILiked.contains(user.getId())){
+                if(!setILiked.contains(user.getId())){
                     setILiked.add(user.getId());
                     prefUtil.putStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, setILiked);
                 }
 
-                if(setDislike != null && setDislike.contains(user.getId())){
+                if(setDislike.contains(user.getId())){
                     setDislike.remove(user.getId());
                     prefUtil.putStringSet(SharedPrefSingleton.I_LIKED_USERS_KEY, setDislike);
                 }
